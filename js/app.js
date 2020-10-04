@@ -1,26 +1,14 @@
+//Returns an available song as the selected answer for the round
 const selectSongAnswer = (songArray) =>  {
     //tests to see if at least 4 songs are available
     //this is done to make sure at least one unused correct song is picked
     //and three unused incorrect songs can be displayed as well
-    //if true, resets all some to being available (true)
-    //Filters songs that are available
+    //if less than 4, resets all some to being available (true)
     if (songArray.filter(songElement => songElement.available === true).length < 4) {
         for (let element of songArray)
             element.available = true;
     }
-    // //tests if all songs have been used
-    // //if true, resets all some to being available (true)
-    // if (songArray.filter(songElement => songElement.available === true).length === 0) {
-    //     for (let element of songArray)
-    //         element.available = true;
-    // }
-    // //Filters songs that are available
-    // let availableSongs = songArray.filter((songElement) => {
-    //     return songElement.available === true});
-    // //Picks a random song from available selection
-    // let song = availableSongs[Math.floor(Math.random() * availableSongs.length)];
-    
-    //select and available song
+    //select an available song
     let song = filterAvailableSong(songArray);
     //find the chosen song in the original data and mark it false (unavailable)
     for (let i = 0; i < songArray.length; i++) {
@@ -32,6 +20,7 @@ const selectSongAnswer = (songArray) =>  {
     return song;
 }
 
+//Finds all songs listed as available and returns a random song from that selection
 const filterAvailableSong = (songArray) => {
     let availableSongs = songArray.filter((songElement) => {
         return songElement.available === true});
@@ -40,30 +29,32 @@ const filterAvailableSong = (songArray) => {
     return song;
 }
 
-const returnAvailableSongs = (songArray) => {
-    return songArray.filter((songElement) => {return songElement.available === true});
-}
-
+//Alters the attr for #song-data and plays the file
 const playSong = (song) => {
     $('#song-data').attr('src', song.path);
     $('audio').get(0).play();
 }
 
-//Generates a unordered lists of 4 possible answers with the correct answer randomly placed
+//Appends to the #selection UL 4 possible answers with the correct answer randomly placed
 const displayAnswers = (rightAnswer, songArray) => {
-    //select a place for the correct answer
+    //select a place for the correct answer to display
     let correctSpot = Math.floor(Math.random() * 4);
+    //returns an array of available songs to select wrong answers from
     let wrongAvailables = songArray.filter((songElement) => {return songElement.available === true});
     for (let i = 0; i < 4; i++){
+        //append the right answer at placement i
         if (i === correctSpot){
             const $li = $('<li>').attr('class', 'correct-answer');
             $li.text(`${rightAnswer.artist} - "${rightAnswer.title}"`);
             console.log(`Correct Answer: ${$($li).text()} in ${i+1}`);
             $('#selection').append($li);
         }
+        //else, finds a wrong a random wrong answer to append instead
         else {
             wrongIndex = Math.floor(Math.random() * wrongAvailables.length);
             const wrongAnswer = wrongAvailables[wrongIndex];
+            //splicing the element out from the available selection to prevent
+            //multiple printings of wrong answers
             wrongAvailables.splice(wrongIndex, 1);
             const $li =  $(`<li>`).attr('class', 'wrong-answer');
             $li.text(`${wrongAnswer.artist} - "${wrongAnswer.title}"`);
