@@ -12,11 +12,12 @@
     display: none;
 }
 
-#round-display {
-    display: none;
+#play {
+    width: 250px;
+    height: 250px;
 }
 
-#audio-start {
+#main-display {
     display: none;
 }
 
