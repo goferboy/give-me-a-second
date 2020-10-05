@@ -55,23 +55,39 @@ const filterAvailableSong = (songArray) => {
 }
 
 //Alters the attr for #song-data and plays the file
-const playSong = (song) => {
-    $('#song').attr('src', song.path);
-    const delay = (seconds) => new Promise(() => {
-        const oneSecond = () => {
-            return new Promise(resolve => {setTimeout(resolve, 1000);})}
-        const countdown = async (seconds) => {
-            for (let i = seconds; i > 0; i--) {
-                $('#play').text(i);
-                await oneSecond();
-            }
-            $('#play').text("Play");
-            $('audio').get(0).play();
+// const playSong = (song) => {
+//     const delay = (seconds) => new Promise(() => {
+//         const oneSecond = () => {
+//             return new Promise(resolve => {setTimeout(resolve, 1000);})}
+//         const countdown = async (seconds) => {
+//             for (let i = seconds; i > 0; i--) {
+//                 $('#play').text(i);
+//                 await oneSecond();
+//             }
+//             $('#play').text("Play");
+//             $('audio').get(0).play();
+//         }
+//         countdown(seconds);
+//     })
+//     delay(3);
+// }
+
+const beginRound = (seconds, rightAnswer, songArray) => new Promise(() => {
+    const oneSecond = () => {
+        return new Promise(resolve => {setTimeout(resolve, 1000);})}
+    const countdown = async (seconds) => {
+        for (let i = seconds; i > 0; i--) {
+            $('#play').text(i);
+            await oneSecond();
         }
-        countdown(seconds);
-    })
-    delay(3);
-}
+        $('#play').text("Play");
+        $('audio').get(0).play();
+        timer(5000);
+        displayAnswers(rightAnswer, songArray);
+    }
+    countdown(seconds);
+})
+
 
 //Appends to the #selection UL 4 possible answers with the correct answer randomly placed
 const displayAnswers = (rightAnswer, songArray) => {
@@ -113,7 +129,7 @@ const startGame = () => {
     $('#main-display').css('display', 'block');
 }
 
-const timer = async (length) => {
+const timer = (length) => {
     $('#timer').animate({
         "background-color": "red",
         "width": "0px"
@@ -125,15 +141,12 @@ $(() => {
     $('#rules-button').on('click', openRules);
     $('#close-button').on('click', closeRules);
     $('#start-game').on('click', startGame);
-    $('#play').on('click', () => {
+    $('#play').on('click', async () => {
         $('#selection').empty();
         const songAnswer = selectSongAnswer(songList);
-        playSong(songAnswer);
-        displayAnswers(songAnswer, songList);
-        
-        timer(5000);
-
-    })
+        $('#song').attr('src', songAnswer.path);
+        beginRound(3, songAnswer, songList);
+    })   
     $(document).keypress((event) => {
         if (event.which === player1.getBuzzKey().charCodeAt(0))
             console.log("pressed a");
