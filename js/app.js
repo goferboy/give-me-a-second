@@ -18,10 +18,11 @@ class Player {
     getKeyBind() {
         return this.keyBinding;
     }
-
+    
 }
 
-
+const player1 = new Player('a');
+const player2 = new Player('l');
 
 //Returns an available song as the selected answer for the round
 const selectSongAnswer = (songArray) =>  {
@@ -100,8 +101,13 @@ const startGame = () => {
     $('#audio-start').css('display', 'block');
 }
 
-const player1 = new Player('a');
-const player2 = new Player('l');
+const timer = (length) => {
+    $('#timer').animate({
+        "background-color": "red",
+        "width": "0px"
+    }, length);
+}
+
 
 $(() => {
     $('#rules-button').on('click', openRules);
@@ -112,6 +118,7 @@ $(() => {
         const songAnswer = selectSongAnswer(songList);
         playSong(songAnswer);
         displayAnswers(songAnswer, songList);
+        timer(5000);
     })
     $(document).keypress((event) => {
         if (event.which === player1.getKeyBind().charCodeAt(0))
