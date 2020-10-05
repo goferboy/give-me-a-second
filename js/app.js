@@ -5,6 +5,7 @@ class Player {
         this.hasScrew = true;
         this.has5050 = true;
         this.buzzKey = key;
+        this.canBuzz = false;
     }
     addPoint() {
         this.points++;
@@ -18,11 +19,16 @@ class Player {
     getBuzzKey() {
         return this.buzzKey;
     }
+    toggleBuzz() {
+        this.canBuzz = !this.canBuzz;
+    }
     
 }
 
 const player1 = new Player('a');
 const player2 = new Player('l');
+
+let rounds = 5;
 
 //Returns an available song as the selected answer for the round
 const selectSongAnswer = (songArray) =>  {
@@ -128,13 +134,39 @@ const closeRules = () => {
 const startGame = () => {
     $('#start-game').css('display', 'none');
     $('#main-display').css('display', 'block');
+    playButton();
 }
 
 const timer = (length) => {
     $('#timer').animate({
         "background-color": "red",
         "width": "0px"
-    }, length);
+    }, {
+        duration: length,
+        start: () => {beginBuzzer();},
+        done: () => {/*a function that stops players from buzzing in and displays results*/console.log("animation ended")}
+    });
+}
+
+const beginBuzzer = () => {
+    player1.toggleBuzz();
+    player2.toggleBuzz();
+    $(document).keypress((event) => {
+        if (event.which === player1.getBuzzKey().charCodeAt(0)){
+            player2.toggleBuzz();
+            playerBuzzerSelect($('#player1'));
+            console.log('pressed A')
+        }
+        else if (event.which === player2.getBuzzKey().charCodeAt(0)) {
+            player1.toggleBuzz();
+            //display feedback
+        }
+        // selectSongAnswer();
+    });
+}
+
+const playerBuzzerSelect = ($player) => {
+    $player.css('background-color', "rgb(0, 195, 255)")
 }
 
 const playButton = () => {
@@ -155,11 +187,4 @@ $(() => {
     $('#rules-button').on('click', openRules);
     $('#close-button').on('click', closeRules);
     $('#start-game').on('click', startGame);
-    playButton();
-    $(document).keypress((event) => {
-        if (event.which === player1.getBuzzKey().charCodeAt(0))
-            console.log("pressed a");
-        else if (event.which === player2.getBuzzKey().charCodeAt(0))
-            console.log("pressed l");
-    });
 })
