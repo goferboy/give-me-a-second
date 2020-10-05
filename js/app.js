@@ -72,7 +72,8 @@ const filterAvailableSong = (songArray) => {
 //     delay(3);
 // }
 
-const beginRound = (seconds, rightAnswer, songArray) => new Promise(() => {
+const beginRound = (seconds, rightAnswer, songArray) => {
+    $('#play').off('click');
     const oneSecond = () => {
         return new Promise(resolve => {setTimeout(resolve, 1000);})}
     const countdown = async (seconds) => {
@@ -86,7 +87,7 @@ const beginRound = (seconds, rightAnswer, songArray) => new Promise(() => {
         displayAnswers(rightAnswer, songArray);
     }
     countdown(seconds);
-})
+}
 
 
 //Appends to the #selection UL 4 possible answers with the correct answer randomly placed
@@ -136,17 +137,25 @@ const timer = (length) => {
     }, length);
 }
 
+const playButton = () => {
+    $('#play').on('click', async () => {
+        $('#timer').css({
+            "width": "300px",
+            "background-color": "rgba(102,255,0,1)"
+        })
+        $('#selection').empty();
+        const songAnswer = selectSongAnswer(songList);
+        $('#song').attr('src', songAnswer.path);
+        beginRound(3, songAnswer, songList);
+    }); 
+}
+
 
 $(() => {
     $('#rules-button').on('click', openRules);
     $('#close-button').on('click', closeRules);
     $('#start-game').on('click', startGame);
-    $('#play').on('click', async () => {
-        $('#selection').empty();
-        const songAnswer = selectSongAnswer(songList);
-        $('#song').attr('src', songAnswer.path);
-        beginRound(3, songAnswer, songList);
-    })   
+    playButton();
     $(document).keypress((event) => {
         if (event.which === player1.getBuzzKey().charCodeAt(0))
             console.log("pressed a");
