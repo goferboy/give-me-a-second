@@ -10,6 +10,21 @@
     </head>
     <body>
         <h1>Title</h1>
+        <button id="rules-button" class="modal-buttons" type="button">How To Play</button>
+        <div id="rules-modal">
+            <div id="rules-text">
+                <h1>BLAH BLAH BLAH</h1>
+                <div id="close-footer">
+                    <button id="close-button" class="modal-buttons" type="button" href="#">Close</button>
+                </div>
+            </div>
+        </div>
+        <div id="header">
+            <button id="start-game" type="button">Begin Game!</button>
+            <div id="round-display">
+                <h1>Round <span id="round-number">1</span></h1>
+            </div>
+        </div>
         <div id="audio-start">
             <button type="button" id="play">Play</button>
             <audio id="song-data" src=""></audio>
@@ -18,6 +33,21 @@
             <ul id="selection">
 
             </ul>
+        </div>
+        <div id="timer"></div>
+        <div id="player1">
+            <div id="p1-score" class="score"></div>
+            <div id="p1-wins" class="wins"></div>
+            <div id="p1-buzzer" class="buzzer"></div>
+            <div id="p1-screw" class="screw"></div>
+            <div id="p1-5050" class="5050"></div>
+        </div>
+        <div id="player2">
+            <div id="p2-score" class="score"></div>
+            <div id="p2-wins" class="wins"></div>
+            <div id="p2-buzzer" class="buzzer"></div>
+            <div id="p2-screw" class="screw"></div>
+            <div id="p2-5050" class="5050"></div>
         </div>
     </body>
 </html>

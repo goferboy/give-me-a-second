@@ -1,0 +1,21 @@
+#rules-modal {
+    background-color: rgba(0,0,0,0.4);
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	/*This puts our modal in front of the body (which has a default z-index setting of `0`*/
+	overflow: auto;
+	/*If overflow is clipped, a scroll-bar should be added to see the rest of the content*/
+    display: none;
+}
+
+#round-display {
+    display: none;
+}
+
+#audio-start {
+    display: none;
+}

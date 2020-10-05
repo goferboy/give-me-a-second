@@ -1,3 +1,28 @@
+class Player {
+    constructor(key) {
+        this.points = 0;
+        this.wins = 0;
+        this.hasScrew = true;
+        this.has5050 = true;
+        this.keyBinding = key;
+    }
+    addPoint() {
+        this.points++;
+    }
+    subtractPoint() {
+        this.points--;
+    }
+    addWin() {
+        this.wins++;
+    }
+    getKeyBind() {
+        return this.keyBinding;
+    }
+
+}
+
+
+
 //Returns an available song as the selected answer for the round
 const selectSongAnswer = (songArray) =>  {
     //tests to see if at least 4 songs are available
@@ -22,8 +47,7 @@ const selectSongAnswer = (songArray) =>  {
 
 //Finds all songs listed as available and returns a random song from that selection
 const filterAvailableSong = (songArray) => {
-    let availableSongs = songArray.filter((songElement) => {
-        return songElement.available === true});
+    let availableSongs = songArray.filter(songElement => songElement.available === true);
     //Picks and returns a random song from available selection
     let song = availableSongs[Math.floor(Math.random() * availableSongs.length)];
     return song;
@@ -40,16 +64,15 @@ const displayAnswers = (rightAnswer, songArray) => {
     //select a place for the correct answer to display
     let correctSpot = Math.floor(Math.random() * 4);
     //returns an array of available songs to select wrong answers from
-    let wrongAvailables = songArray.filter((songElement) => {return songElement.available === true});
+    let wrongAvailables = songArray.filter(songElement => songElement.available === true);
     for (let i = 0; i < 4; i++){
         //append the right answer at placement i
         if (i === correctSpot){
             const $li = $('<li>').attr('class', 'correct-answer');
             $li.text(`${rightAnswer.artist} - "${rightAnswer.title}"`);
-            console.log(`Correct Answer: ${$($li).text()} in ${i+1}`);
             $('#selection').append($li);
         }
-        //else, finds a wrong a random wrong answer to append instead
+        //else, finds a random wrong answer to append instead
         else {
             wrongIndex = Math.floor(Math.random() * wrongAvailables.length);
             const wrongAnswer = wrongAvailables[wrongIndex];
@@ -63,12 +86,37 @@ const displayAnswers = (rightAnswer, songArray) => {
     }
 }
 
+const openRules = () => {
+    $('#rules-modal').css('display', 'block');
+}
+
+const closeRules = () => {
+    $('#rules-modal').css('display', 'none');
+}
+
+const startGame = () => {
+    $('#start-game').css('display', 'none');
+    $('#round-display').css('display', 'block');
+    $('#audio-start').css('display', 'block');
+}
+
+const player1 = new Player('a');
+const player2 = new Player('l');
 
 $(() => {
+    $('#rules-button').on('click', openRules);
+    $('#close-button').on('click', closeRules);
+    $('#start-game').on('click', startGame);
     $('#play').on('click', () => {
         $('#selection').empty();
         const songAnswer = selectSongAnswer(songList);
         playSong(songAnswer);
         displayAnswers(songAnswer, songList);
     })
+    $(document).keypress((event) => {
+        if (event.which === player1.getKeyBind().charCodeAt(0))
+            console.log("pressed a");
+        else if (event.which === player2.getKeyBind().charCodeAt(0))
+            console.log("pressed l");
+    });
 })
