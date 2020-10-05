@@ -60,23 +60,6 @@ const filterAvailableSong = (songArray) => {
     return song;
 }
 
-//Alters the attr for #song-data and plays the file
-// const playSong = (song) => {
-//     const delay = (seconds) => new Promise(() => {
-//         const oneSecond = () => {
-//             return new Promise(resolve => {setTimeout(resolve, 1000);})}
-//         const countdown = async (seconds) => {
-//             for (let i = seconds; i > 0; i--) {
-//                 $('#play').text(i);
-//                 await oneSecond();
-//             }
-//             $('#play').text("Play");
-//             $('audio').get(0).play();
-//         }
-//         countdown(seconds);
-//     })
-//     delay(3);
-// }
 
 const beginRound = (seconds, rightAnswer, songArray) => {
     $('#play').off('click');
@@ -152,12 +135,12 @@ const beginBuzzer = () => {
     player1.toggleBuzz();
     player2.toggleBuzz();
     $(document).keypress((event) => {
-        if (event.which === player1.getBuzzKey().charCodeAt(0)){
+        if (event.which === player1.getBuzzKey().charCodeAt(0) && player1.canBuzz) {
             player2.toggleBuzz();
             playerBuzzerSelect($('#player1'));
-            console.log('pressed A')
+            playerChoice(player1);
         }
-        else if (event.which === player2.getBuzzKey().charCodeAt(0)) {
+        else if (event.which === player2.getBuzzKey().charCodeAt(0) && player2.canBuzz) {
             player1.toggleBuzz();
             //display feedback
         }
@@ -167,6 +150,20 @@ const beginBuzzer = () => {
 
 const playerBuzzerSelect = ($player) => {
     $player.css('background-color', "rgb(0, 195, 255)")
+}
+
+const playerChoice = (player) => {
+    $(document).keypress((event) => {
+        if (event.which === '1'.charCodeAt(0) || event.which === '2'.charCodeAt(0) ||
+        event.which === '3'.charCodeAt(0) || event.which === '4'.charCodeAt(0)) {
+            let selection = String.fromCharCode(event.which) - 1;
+            const $answers = $('li');
+            if ($($answers[selection]).attr('class') === 'correct-answer')
+                console.log('correct!')      
+            else 
+                console.log('it wrong!');
+        }
+    })
 }
 
 const playButton = () => {
