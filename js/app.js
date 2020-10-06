@@ -8,10 +8,13 @@ class Player {
         this.canBuzz = false;
     }
     addPoint() {
-        this.points++;
+        this.points+=100;
     }
     subtractPoint() {
-        this.points--;
+        this.points-=100;
+    }
+    getScore() {
+        return this.points;
     }
     addWin() {
         this.wins++;
@@ -19,16 +22,40 @@ class Player {
     getBuzzKey() {
         return this.buzzKey;
     }
-    toggleBuzz() {
-        this.canBuzz = !this.canBuzz;
-    }
-    
 }
 
 const player1 = new Player('a');
 const player2 = new Player('l');
 
 let rounds = 5;
+
+const openRules = () => {
+    $('#rules-modal').css('display', 'block');
+    }
+    
+    const closeRules = () => {
+    $('#rules-modal').css('display', 'none');
+}
+
+const startGame = () => {
+    $('#start-game').css('display', 'none');
+    $('#main-display').css('display', 'block');
+    playButton();
+}
+
+const playButton = () => {
+    $('#play').on('click', async () => {
+        resetColors();
+        $('#timer').css({
+            "width": "300px",
+            "background-color": "rgba(102,255,0,1)"
+        })
+        $('#selection').empty();
+        const songAnswer = selectSongAnswer(songList);
+        $('#song').attr('src', songAnswer.path);
+        beginRound(3, songAnswer, songList);
+    }); 
+}
 
 //Returns an available song as the selected answer for the round
 const selectSongAnswer = (songArray) =>  {
@@ -38,7 +65,7 @@ const selectSongAnswer = (songArray) =>  {
     //if less than 4, resets all some to being available (true)
     if (songArray.filter(songElement => songElement.available === true).length < 4) {
         for (let element of songArray)
-            element.available = true;
+        element.available = true;
     }
     //select an available song
     let song = filterAvailableSong(songArray);
@@ -60,25 +87,39 @@ const filterAvailableSong = (songArray) => {
     return song;
 }
 
-
 const beginRound = (seconds, rightAnswer, songArray) => {
     $('#play').off('click');
     const oneSecond = () => {
         return new Promise(resolve => {setTimeout(resolve, 1000);})}
-    const countdown = async (seconds) => {
-        for (let i = seconds; i > 0; i--) {
-            $('#play').text(i);
-            await oneSecond();
+        const countdown = async (seconds) => {
+            for (let i = seconds; i > 0; i--) {
+                $('#play').text(i);
+                await oneSecond();
+            }
+            $('#play').text("Play");
+            $('audio').get(0).play();
+            timer(5000, beginBuzzer, endBuzzer);
+            displayAnswers(rightAnswer, songArray);
         }
-        $('#play').text("Play");
-        $('audio').get(0).play();
-        timer(5000);
-        displayAnswers(rightAnswer, songArray);
-    }
     countdown(seconds);
 }
-
-
+    
+const timer = (length, startFunc, endFunc) => {
+    $('#timer').stop();
+    $('#timer').css({
+        "background-color": "rgba(102,255,0,1)",
+        "width": "300px"
+    })
+    $('#timer').animate({
+        "background-color": "red",
+        "width": "0px"
+    }, {
+        duration: length,
+        start: () => {startFunc();},
+        complete: () => {endFunc();}
+    });
+}
+    
 //Appends to the #selection UL 4 possible answers with the correct answer randomly placed
 const displayAnswers = (rightAnswer, songArray) => {
     //select a place for the correct answer to display
@@ -106,79 +147,72 @@ const displayAnswers = (rightAnswer, songArray) => {
     }
 }
 
-const openRules = () => {
-    $('#rules-modal').css('display', 'block');
+const beginBuzzer = () => {
+    toggleBuzz();
+    $(document).keypress((event) => {
+        if (event.which === player1.getBuzzKey().charCodeAt(0) && player1.canBuzz) {
+            timer(5000, () => {}, () => {noAnswers(player1, '#p1-score')});
+            toggleBuzz();
+            $('#player1').css('background-color', "rgb(0, 195, 255)");
+            playerChoice(player1, '#p1-score');
+
+        }
+        else if (event.which === player2.getBuzzKey().charCodeAt(0) && player2.canBuzz) {
+            timer(5000, () => {}, () => {noAnswers(player2, '#p2-score')});
+            toggleBuzz();
+            $('#player2').css('background-color', "rgb(0, 195, 255)");
+            playerChoice(player2, '#p2-score');
+        }
+    });
 }
 
-const closeRules = () => {
-    $('#rules-modal').css('display', 'none');
-}
-
-const startGame = () => {
-    $('#start-game').css('display', 'none');
-    $('#main-display').css('display', 'block');
+//Is only called if no players buzz during buzz round
+const endBuzzer = () => {
+    toggleBuzz();
+    $(document).off('keypress');
     playButton();
 }
 
-const timer = (length) => {
-    $('#timer').animate({
-        "background-color": "red",
-        "width": "0px"
-    }, {
-        duration: length,
-        start: () => {beginBuzzer();},
-        done: () => {/*a function that stops players from buzzing in and displays results*/console.log("animation ended")}
-    });
+const toggleBuzz = () => {
+    player1.canBuzz = !player1.canBuzz;
+    player2.canBuzz = !player2.canBuzz;
 }
 
-const beginBuzzer = () => {
-    player1.toggleBuzz();
-    player2.toggleBuzz();
-    $(document).keypress((event) => {
-        if (event.which === player1.getBuzzKey().charCodeAt(0) && player1.canBuzz) {
-            player2.toggleBuzz();
-            playerBuzzerSelect($('#player1'));
-            playerChoice(player1);
-        }
-        else if (event.which === player2.getBuzzKey().charCodeAt(0) && player2.canBuzz) {
-            player1.toggleBuzz();
-            //display feedback
-        }
-        // selectSongAnswer();
-    });
-}
-
-const playerBuzzerSelect = ($player) => {
-    $player.css('background-color', "rgb(0, 195, 255)")
-}
-
-const playerChoice = (player) => {
+const playerChoice = (player, htmlSpan) => {
     $(document).keypress((event) => {
         if (event.which === '1'.charCodeAt(0) || event.which === '2'.charCodeAt(0) ||
         event.which === '3'.charCodeAt(0) || event.which === '4'.charCodeAt(0)) {
             let selection = String.fromCharCode(event.which) - 1;
             const $answers = $('li');
-            if ($($answers[selection]).attr('class') === 'correct-answer')
-                console.log('correct!')      
-            else 
+            if ($($answers[selection]).attr('class') === 'correct-answer') {
+                $('#timer').stop();
+                console.log('correct!')
+                player.addPoint();
+            }      
+            else {
+                $('#timer').stop();
                 console.log('it wrong!');
+                player.subtractPoint();
+            }
+            $(htmlSpan).text(player.getScore());
+            $(document).off('keypress');
+            playButton();
         }
     })
 }
 
-const playButton = () => {
-    $('#play').on('click', async () => {
-        $('#timer').css({
-            "width": "300px",
-            "background-color": "rgba(102,255,0,1)"
-        })
-        $('#selection').empty();
-        const songAnswer = selectSongAnswer(songList);
-        $('#song').attr('src', songAnswer.path);
-        beginRound(3, songAnswer, songList);
-    }); 
+//Called if a player buzzes but does not answer
+const noAnswers = (player, htmlSpan) => {
+    player.subtractPoint();
+    $(htmlSpan).text(player.getScore());
+    $(document).off('keypress');
+    playButton();
 }
 
+const resetColors = () => {
+    $('#player1').css('background-color', "rgba(0, 0, 0, 0");
+    $('#player2').css('background-color', "rgba(0, 0, 0, 0");
+}
 
 $(() => {
     $('#rules-button').on('click', openRules);
