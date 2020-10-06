@@ -19,6 +19,9 @@ class Player {
     addWin() {
         this.wins++;
     }
+    getWins() {
+        return this.wins;
+    }
     getBuzzKey() {
         return this.buzzKey;
     }
@@ -28,6 +31,7 @@ const player1 = new Player('a');
 const player2 = new Player('l');
 
 let rounds = 5;
+let currentRound = 0;
 
 const openRules = () => {
     $('#rules-modal').css('display', 'block');
@@ -38,12 +42,16 @@ const openRules = () => {
 }
 
 const startGame = () => {
-    $('#start-game').css('display', 'none');
-    $('#main-display').css('display', 'block');
-    playButton();
+    if (currentRound < rounds) {
+        playButton();
+    }
+    else {
+        roundOver();
+    }
 }
 
 const playButton = () => {
+    roundCheck();
     $('#play').on('click', async () => {
         resetColors();
         $('#timer').css({
@@ -55,6 +63,30 @@ const playButton = () => {
         $('#song').attr('src', songAnswer.path);
         beginRound(3, songAnswer, songList);
     }); 
+}
+
+const roundCheck = () => {
+    currentRound++;
+    $('#round-number').text(currentRound);
+    $('#start-game').css('display', 'none');
+    $('#main-display').css('display', 'block');
+}
+const roundOver = () => {
+    if (player1.getScore() === player2.getScore()) {
+        alert("It's A Tie!");
+    }
+    else if (player1.getScore() > player2.getScore()) {
+        alert("Player 1 Wins!")
+        player1.addWin();
+        $('#p1-wins').text(player1.getWins());
+    }
+    else {
+        alert("Player 2 Wins!")
+        player2.addWin();
+        $('#p2-wins').text(player1.getWins());
+    }
+    currentRound = 0;
+    playButton();
 }
 
 //Returns an available song as the selected answer for the round
@@ -170,7 +202,7 @@ const beginBuzzer = () => {
 const endBuzzer = () => {
     toggleBuzz();
     $(document).off('keypress');
-    playButton();
+    startGame();
 }
 
 const toggleBuzz = () => {
@@ -196,7 +228,7 @@ const playerChoice = (player, htmlSpan) => {
             }
             $(htmlSpan).text(player.getScore());
             $(document).off('keypress');
-            playButton();
+            startGame();
         }
     })
 }
@@ -206,7 +238,7 @@ const noAnswers = (player, htmlSpan) => {
     player.subtractPoint();
     $(htmlSpan).text(player.getScore());
     $(document).off('keypress');
-    playButton();
+    startGame();
 }
 
 const resetColors = () => {
