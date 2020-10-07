@@ -56,7 +56,7 @@ const startGame = () => {
         playButton();
     }
     else {
-        roundOver();
+        gameOver();
     }
 }
 
@@ -81,7 +81,7 @@ const roundCheck = () => {
     $('#start-game').css('display', 'none');
     $('#main-display').css('display', 'block');
 }
-const roundOver = () => {
+const gameOver = () => {
     if (player1.getScore() === player2.getScore()) {
         alert("It's A Tie!");
     }
@@ -245,6 +245,7 @@ const playerChoice = (player, opponent) => {
             && player.can5050()) {
             const $answers = $('li');
             player.has5050 = false;
+            toggle5050(player);
             $(document).off('keypress');
             let deletedTwo = 0;
             let remainingIndex = [1, 2, 3, 4];
@@ -267,10 +268,11 @@ const playerChoice = (player, opponent) => {
             })
             //insert DOM to remove 50/50 icon
         }
-        //when a player uses a screw
+        //when a player uses a nail
         if ((event.which === 'c'.charCodeAt(0) || event.which === 'C'.charCodeAt(0))
             && player.canScrew()) {
             player.hasScrew = false;
+            toggleNail(player);
             //turn off dom to prevent pressing other options
             $(document).off('keypress');
             //dom to change other players color to indicate they must answer now
@@ -306,6 +308,14 @@ const playerChoice = (player, opponent) => {
     })
 }
 
+const toggleNail = (player) => {
+    $(`${player.getDivID()} .nail img`).css('opacity', '25%').effect('pulsate');
+}
+
+const toggle5050 = (player) => {
+    $(`${player.getDivID()} .5050 img`).css('opacity', '25%').effect('pulsate');
+}
+
 const choiceVerify = (player, event) => {
     const $answers = $('li');
     let selection = String.fromCharCode(event.which) - 1;
@@ -330,11 +340,11 @@ const noAnswers = (player) => {
     startGame();
 }
 
-const screwTimeLimit = (screwee, screwer) => {
-    screwee.subtractPoint();
-    screwer.addPoint();
-    $(`${screwee.getDivID()} .score span`).text(player.getScore());
-    $(`${screwer.getDivID()} .score span`).text(player.getScore());
+const screwTimeLimit = (nailee, nailer) => {
+    nailee.subtractPoint();
+    nailer.addPoint();
+    $(`${nailee.getDivID()} .score span`).text(nailee.getScore());
+    $(`${nailer.getDivID()} .score span`).text(nailer.getScore());
     $(document).off('keypress');
     startGame();
 }

@@ -48,3 +48,12 @@ body {
 #player-board {
 	display: flex;
 }
+
+.player {
+	padding: 15px;
+}
+
+.player img{
+	width: 25px;
+	height: 25px;
+}
