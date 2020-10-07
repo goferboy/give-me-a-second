@@ -9,14 +9,17 @@
 			  crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
+        <link rel="stylesheet" href="css/style.css">
         <script type="text/javascript" src="js/song-data.js" charset="utf-8"></script>
         <script type="text/javascript" src="js/app.js" charset="utf-8"></script>
-        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <div id="header">
-            <h1>Give Me A Second!</h1>
             <button id="rules-button" class="modal-buttons" type="button">How To Play</button>
+            <h1>Give Me A Second!</h1>
+            <button id="start-game" type="button">Begin Game!</button>
             <div id="rules-modal">
                 <div id="rules-text">
                     <h1>Welcome to "Give Me a Second!"</h1>
@@ -36,7 +39,6 @@
                     </div>
                 </div>
             </div>
-            <button id="start-game" type="button">Begin Game!</button>
         </div>
         <div id="main-display">
             <div id="round-display">
@@ -46,12 +48,12 @@
                 <button type="button" id="play">Play</button>
                 <audio id="song" src=""></audio>
             </div>
+            <div id="timer"></div>
             <div id="answers">
                 <ol id="selection">
 
                 </ol>
             </div>
-            <div id="timer"></div>
         </div>
         <div id="player-board">
             <div id="player1" class="player">

@@ -45,7 +45,7 @@ class Player {
 const player1 = new Player('a', "#player1");
 const player2 = new Player('l', "#player2");
 
-let rounds = 3;
+let rounds = 5;
 let currentRound = 0;
 
 const openRules = () => {
@@ -272,7 +272,6 @@ const playerChoice = (player, opponent) => {
             let remainingIndex = [1, 2, 3, 4];
             while (deletedTwo < 2) {
                 let randomIndex = Math.floor(Math.random() * $answers.length);
-                console.log($($answers[randomIndex]).attr('class'));
                 if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
                     $($answers[randomIndex]).text() !== "") {
                     $($answers[randomIndex]).text("");
