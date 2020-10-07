@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>Give Me A Second!</title>
         <script
 			  src="https://code.jquery.com/jquery-3.5.1.min.js"
 			  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -15,11 +15,22 @@
     </head>
     <body>
         <div id="header">
-            <h1>Title</h1>
+            <h1>Give Me A Second!</h1>
             <button id="rules-button" class="modal-buttons" type="button">How To Play</button>
             <div id="rules-modal">
                 <div id="rules-text">
-                    <h1>BLAH BLAH BLAH</h1>
+                    <h1>Welcome to "Give Me a Second!"</h1>
+                    <h3>A 2-Player "Guess That Tune" game where you only have
+                        one second to figure out the song!</h3>
+                    <p>You and your opponent must buzz in after a song plays and correctly guess which song it is.</p>
+                    <p>Guess right, you gain 100 points, but guess wrong, and you lose 100! Who ever has the highest score when the game ends, wins!</p>
+                    <h4>How to play:</h4>
+                    <p>When both players are ready, click on the play button. After the countdown the song will play</p>
+                    <p>Four possible songs will then pop up. If you know what it is, you must buzz in before your opponent does</p>
+                    <p>Player one's buzzer is the key 'A' and Player two's buzzer is the key 'L'</p>
+                    <p>After buzzing in, select the corresponding you want, (1-4).</p>
+                    <p>Feeling stumped? Every player has one chance to use a 50/50 power up, where two of the wrong answers will be removed!</p>
+
                     <div id="close-footer">
                         <button id="close-button" class="modal-buttons" type="button" href="#">Close</button>
                     </div>
@@ -42,30 +53,32 @@
             </div>
             <div id="timer"></div>
         </div>
-        <div id="player1" class="player">
-            <h1>Player 1</h1>
-            <h3>Press 'A' to buzz</h3>
-            <div class="score">
-                <h3>Score: <span id="p1-score">0</span></h3>
+        <div id="player-board">
+            <div id="player1" class="player">
+                <h1>Player 1</h1>
+                <h3>Press 'A' to buzz</h3>
+                <div class="score">
+                    <h3>Score: <span id="p1-score">0</span></h3>
+                </div>
+                <div class="buzzer"></div>
+                <div class="screw"></div>
+                <div class="5050"></div>
+                <div class="wins">
+                    <h3>Wins: <span id="p1-wins">0</span></h3>
+                </div>
             </div>
-            <div class="buzzer"></div>
-            <div class="screw"></div>
-            <div class="5050"></div>
-            <div class="wins">
-                <h3>Wins: <span id="p1-wins">0</span></h3>
-            </div>
-        </div>
-        <div id="player2" class="player">
-            <h1>Player 2</h1>
-            <h3>Press 'L' to buzz</h3>
-            <div class="score">
-                <h3>Score: <span id="p2-score">0</span></h3>
-            </div>
-            <div class="buzzer"></div>
-            <div class="screw"></div>
-            <div class="5050"></div>
-            <div class="wins">
-                <h3>Wins: <span id="p2-wins">0</span></h3>
+            <div id="player2" class="player">
+                <h1>Player 2</h1>
+                <h3>Press 'L' to buzz</h3>
+                <div class="score">
+                    <h3>Score: <span id="p2-score">0</span></h3>
+                </div>
+                <div class="buzzer"></div>
+                <div class="screw"></div>
+                <div class="5050"></div>
+                <div class="wins">
+                    <h3>Wins: <span id="p2-wins">0</span></h3>
+                </div>
             </div>
         </div>
     </body>

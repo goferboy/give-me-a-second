@@ -1,11 +1,12 @@
 class Player {
-    constructor(key) {
+    constructor(key, divID) {
         this.points = 0;
         this.wins = 0;
         this.hasScrew = true;
         this.has5050 = true;
         this.buzzKey = key;
         this.canBuzz = false;
+        this.divID = divID;
     }
     addPoint() {
         this.points+=100;
@@ -25,10 +26,19 @@ class Player {
     getBuzzKey() {
         return this.buzzKey;
     }
+    can5050() {
+        return this.has5050;
+    }
+    canScrew() {
+        return this.hasScrew;
+    }
+    getDivID() {
+        return this.divID;
+    }
 }
 
-const player1 = new Player('a');
-const player2 = new Player('l');
+const player1 = new Player('a', "#player1");
+const player2 = new Player('l', "#player2");
 
 let rounds = 5;
 let currentRound = 0;
@@ -179,64 +189,140 @@ const displayAnswers = (rightAnswer, songArray) => {
     }
 }
 
+const toggleBuzz = () => {
+    player1.canBuzz = !player1.canBuzz;
+    player2.canBuzz = !player2.canBuzz;
+}
+
 const beginBuzzer = () => {
     toggleBuzz();
     $(document).keypress((event) => {
         if (event.which === player1.getBuzzKey().charCodeAt(0) && player1.canBuzz) {
             timer(5000, () => {}, () => {noAnswers(player1, '#p1-score')});
             toggleBuzz();
-            $('#player1').css('background-color', "rgb(0, 195, 255)");
-            playerChoice(player1, '#p1-score');
+            $(player1.getDivID()).css('background-color', "rgb(0, 195, 255)");
+            playerChoice(player1, player2);
 
         }
         else if (event.which === player2.getBuzzKey().charCodeAt(0) && player2.canBuzz) {
             timer(5000, () => {}, () => {noAnswers(player2, '#p2-score')});
             toggleBuzz();
-            $('#player2').css('background-color', "rgb(0, 195, 255)");
-            playerChoice(player2, '#p2-score');
+            $(player2.getDivID()).css('background-color', "rgb(0, 195, 255)");
+            playerChoice(player2, player1);
         }
     });
 }
 
-//Is only called if no players buzz during buzz round
+//Is only called if no players buzz at all during round
 const endBuzzer = () => {
     toggleBuzz();
     $(document).off('keypress');
     startGame();
 }
 
-const toggleBuzz = () => {
-    player1.canBuzz = !player1.canBuzz;
-    player2.canBuzz = !player2.canBuzz;
-}
-
-const playerChoice = (player, htmlSpan) => {
+const playerChoice = (player, opponent) => {
     $(document).keypress((event) => {
+        //when a player wishes to make an answer
         if (event.which === '1'.charCodeAt(0) || event.which === '2'.charCodeAt(0) ||
-        event.which === '3'.charCodeAt(0) || event.which === '4'.charCodeAt(0)) {
-            let selection = String.fromCharCode(event.which) - 1;
+            event.which === '3'.charCodeAt(0) || event.which === '4'.charCodeAt(0)) {
+            choiceVerify(player, event);
+        }
+        //when a player uses 50/50
+        if ((event.which === 'n'.charCodeAt(0) || event.which === 'N'.charCodeAt(0))
+            && player.can5050()) {
             const $answers = $('li');
-            if ($($answers[selection]).attr('class') === 'correct-answer') {
-                $('#timer').stop();
-                console.log('correct!')
-                player.addPoint();
-            }      
-            else {
-                $('#timer').stop();
-                console.log('it wrong!');
-                player.subtractPoint();
-            }
-            $(htmlSpan).text(player.getScore());
+            player.has5050 = false;
             $(document).off('keypress');
-            startGame();
+            let deletedTwo = 0;
+            let remainingIndex = [1, 2, 3, 4];
+            while (deletedTwo < 2) {
+                let randomIndex = Math.floor(Math.random() * $answers.length);
+                console.log($($answers[randomIndex]).attr('class'));
+                if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
+                    $($answers[randomIndex]).text() !== "") {
+                    $($answers[randomIndex]).text("");
+                    remainingIndex[randomIndex] = 0;
+                    deletedTwo++;
+                }
+            }
+            remainingIndex = remainingIndex.filter(element => element !== 0);
+            $(document).keypress((event) => {
+                if (event.which === `${remainingIndex[0]}`.charCodeAt(0) || 
+                    event.which === `${remainingIndex[1]}`.charCodeAt(0)) {
+                        choiceVerify(player, event);
+                }
+            })
+            //insert DOM to remove 50/50 icon
+        }
+        //when a player uses a screw
+        if ((event.which === 'c'.charCodeAt(0) || event.which === 'C'.charCodeAt(0))
+            && player.canScrew()) {
+            player.hasScrew = false;
+            //turn off dom to prevent pressing other options
+            $(document).off('keypress');
+            //dom to change other players color to indicate they must answer now
+            $(opponent.getDivID()).css('background-color', "rgb(255, 115, 0)");
+            //reset timer for them, and if they don't answer in time,
+            //player gains points, opponent loses points
+            timer(5000, () => {}, () => {screwTimeLimit(opponent, player)});
+            //turn listener back on and make selection
+            $(document).keypress((event) => {
+                const $answers = $('li');
+                if (event.which === '1'.charCodeAt(0) || event.which === '2'.charCodeAt(0) ||
+                    event.which === '3'.charCodeAt(0) || event.which === '4'.charCodeAt(0)) {
+                    let selection = String.fromCharCode(event.which) - 1;
+                    if ($($answers[selection]).attr('class') === 'correct-answer') {
+                        $('#timer').stop();
+                        console.log('correct!')
+                        opponent.addPoint();
+                        player.subtractPoint();
+                    }      
+                    else {
+                        $('#timer').stop();
+                        console.log('it wrong!');
+                        opponent.subtractPoint();
+                        player.addPoint();
+                    }
+                $(`${player.getDivID()} .score span`).text(player.getScore());
+                $(`${opponent.getDivID()} .score span`).text(opponent.getScore());
+                $(document).off('keypress');
+                startGame();
+                }
+            })
         }
     })
 }
 
+const choiceVerify = (player, event) => {
+    const $answers = $('li');
+    let selection = String.fromCharCode(event.which) - 1;
+    if ($($answers[selection]).attr('class') === 'correct-answer') {
+        $('#timer').stop();
+        console.log('correct!')
+        player.addPoint();
+    }      
+    else {
+        $('#timer').stop();
+        console.log('it wrong!');
+        player.subtractPoint();
+    }
+    $(`${player.getDivID()} .score span`).text(player.getScore());
+    $(document).off('keypress');
+    startGame();
+}
 //Called if a player buzzes but does not answer
 const noAnswers = (player, htmlSpan) => {
     player.subtractPoint();
     $(htmlSpan).text(player.getScore());
+    $(document).off('keypress');
+    startGame();
+}
+
+const screwTimeLimit = (screwee, screwer) => {
+    screwee.subtractPoint();
+    screwer.addPoint();
+    $(`${screwee.getDivID()} .score span`).text(player.getScore());
+    $(`${screwer.getDivID()} .score span`).text(player.getScore());
     $(document).off('keypress');
     startGame();
 }
