@@ -198,16 +198,16 @@ const beginBuzzer = () => {
     toggleBuzz();
     $(document).keypress((event) => {
         if (event.which === player1.getBuzzKey().charCodeAt(0) && player1.canBuzz) {
-            timer(5000, () => {}, () => {noAnswers(player1, '#p1-score')});
+            timer(5000, () => {}, () => {noAnswers(player1)});
             toggleBuzz();
-            $(player1.getDivID()).css('background-color', "rgb(0, 195, 255)");
+            $(player1.getDivID()).css('background-color', "rgb(0, 195, 255)").effect('pulsate', {times:2}, 200);
             playerChoice(player1, player2);
 
         }
         else if (event.which === player2.getBuzzKey().charCodeAt(0) && player2.canBuzz) {
-            timer(5000, () => {}, () => {noAnswers(player2, '#p2-score')});
+            timer(5000, () => {}, () => {noAnswers(player2)});
             toggleBuzz();
-            $(player2.getDivID()).css('background-color', "rgb(0, 195, 255)");
+            $(player2.getDivID()).css('background-color', "rgb(0, 195, 255)").effect('pulsate', {times:2}, 200);
             playerChoice(player2, player1);
         }
     });
@@ -217,7 +217,20 @@ const beginBuzzer = () => {
 const endBuzzer = () => {
     toggleBuzz();
     $(document).off('keypress');
+    displayCorrectAnswer();
     startGame();
+}
+
+const displayCorrectAnswer = () => {
+    const $answers = $('li');
+    for (let i = 0; i < $answers.length; i++) {
+        if ($($answers[i]).attr('class') === 'correct-answer')
+            $($answers[i]).animate({backgroundColor: "green"});
+    }
+}
+
+const displayWrongAnswer = ($selection) => {
+    $($selection).animate({backgroundColor: "red"}, 150).effect('bounce');
 }
 
 const playerChoice = (player, opponent) => {
@@ -297,23 +310,22 @@ const choiceVerify = (player, event) => {
     const $answers = $('li');
     let selection = String.fromCharCode(event.which) - 1;
     if ($($answers[selection]).attr('class') === 'correct-answer') {
-        $('#timer').stop();
-        console.log('correct!')
         player.addPoint();
     }      
     else {
-        $('#timer').stop();
-        console.log('it wrong!');
+        displayWrongAnswer($answers[selection]);
         player.subtractPoint();
     }
+    $('#timer').stop();
+    displayCorrectAnswer();
     $(`${player.getDivID()} .score span`).text(player.getScore());
     $(document).off('keypress');
     startGame();
 }
 //Called if a player buzzes but does not answer
-const noAnswers = (player, htmlSpan) => {
+const noAnswers = (player) => {
     player.subtractPoint();
-    $(htmlSpan).text(player.getScore());
+    $(`${player.getDivID()} .score span`).text(player.getScore());
     $(document).off('keypress');
     startGame();
 }
