@@ -51,9 +51,17 @@ body {
 
 .player {
 	padding: 15px;
+	width: 200px;
+}
+
+.power-ups {
+	display: flex;
+	justify-content: space-around;
+	width: 150px;
 }
 
 .player img{
 	width: 25px;
 	height: 25px;
+	padding: 10px;
 }

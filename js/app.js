@@ -241,7 +241,7 @@ const playerChoice = (player, opponent) => {
             choiceVerify(player, event);
         }
         //when a player uses 50/50
-        if ((event.which === 'n'.charCodeAt(0) || event.which === 'N'.charCodeAt(0))
+        if ((event.which === 'c'.charCodeAt(0) || event.which === 'C'.charCodeAt(0))
             && player.can5050()) {
             const $answers = $('li');
             player.has5050 = false;
@@ -269,7 +269,7 @@ const playerChoice = (player, opponent) => {
             //insert DOM to remove 50/50 icon
         }
         //when a player uses a nail
-        if ((event.which === 'c'.charCodeAt(0) || event.which === 'C'.charCodeAt(0))
+        if ((event.which === 'n'.charCodeAt(0) || event.which === 'N'.charCodeAt(0))
             && player.canScrew()) {
             player.hasScrew = false;
             toggleNail(player);
