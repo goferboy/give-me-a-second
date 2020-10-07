@@ -35,34 +35,44 @@ class Player {
     getDivID() {
         return this.divID;
     }
+    newGame() {
+        this.points = 0;
+        this.hasNail = true;
+        this.has5050 = true;
+    }
 }
 
 const player1 = new Player('a', "#player1");
 const player2 = new Player('l', "#player2");
 
-let rounds = 5;
+let rounds = 3;
 let currentRound = 0;
 
 const openRules = () => {
     $('#rules-modal').css('display', 'block');
-    }
-    
-    const closeRules = () => {
+}
+  
+const closeRules = () => {
     $('#rules-modal').css('display', 'none');
 }
 
 const startGame = () => {
-    if (currentRound < rounds) {
+    nextGame(player1, player2);
+    playButton();
+}
+
+const nextRound = () => {
+    if (currentRound < rounds)
         playButton();
-    }
-    else {
+    else
         gameOver();
-    }
 }
 
 const playButton = () => {
-    roundCheck();
+    $('#start-game').css('display', 'none');
+    $('#main-display').css('display', 'block');
     $('#play').on('click', async () => {
+        roundDisplay();
         resetColors();
         $('#timer').css({
             "width": "300px",
@@ -75,11 +85,9 @@ const playButton = () => {
     }); 
 }
 
-const roundCheck = () => {
+const roundDisplay = () => {
     currentRound++;
     $('#round-number').text(currentRound);
-    $('#start-game').css('display', 'none');
-    $('#main-display').css('display', 'block');
 }
 const gameOver = () => {
     if (player1.getScore() === player2.getScore()) {
@@ -87,16 +95,30 @@ const gameOver = () => {
     }
     else if (player1.getScore() > player2.getScore()) {
         alert("Player 1 Wins!")
-        player1.addWin();
-        $('#p1-wins').text(player1.getWins());
+        displayWins(player1);
     }
     else {
         alert("Player 2 Wins!")
-        player2.addWin();
-        $('#p2-wins').text(player1.getWins());
+        displayWins(player2);
     }
+    $('#start-game').css('display', 'initial').text('Next Game!');
+}
+
+const displayWins = (winner) => {
+    winner.addWin();
+    $(`${winner.getDivID()} .wins span`).text(winner.getWins());
+}
+
+const nextGame = (playerA, playerB) => {
+    playerA.newGame();
+    playerB.newGame();
+    $(`${playerA.getDivID()} .score span`).text(playerA.getScore());
+    $(`${playerB.getDivID()} .score span`).text(playerB.getScore());
+    $(`${playerA.getDivID()} .nail img`).css('opacity', '100%');
+    $(`${playerA.getDivID()} .5050 img`).css('opacity', '100%');
+    $(`${playerB.getDivID()} .nail img`).css('opacity', '100%');
+    $(`${playerB.getDivID()} .5050 img`).css('opacity', '100%');
     currentRound = 0;
-    playButton();
 }
 
 //Returns an available song as the selected answer for the round
@@ -218,7 +240,7 @@ const endBuzzer = () => {
     toggleBuzz();
     $(document).off('keypress');
     displayCorrectAnswer();
-    startGame();
+    nextRound();
 }
 
 const displayCorrectAnswer = () => {
@@ -297,7 +319,7 @@ const playerChoice = (player, opponent) => {
                 $(`${player.getDivID()} .score span`).text(player.getScore());
                 $(`${opponent.getDivID()} .score span`).text(opponent.getScore());
                 $(document).off('keypress');
-                startGame();
+                nextRound();
                 }
             })
         }
@@ -328,7 +350,7 @@ const choiceVerify = (player, event) => {
     displayCorrectAnswer();
     $(`${player.getDivID()} .score span`).text(player.getScore());
     $(document).off('keypress');
-    startGame();
+    nextRound();
 }
 //Called if a player buzzes but does not answer
 const noAnswers = (player) => {
@@ -336,7 +358,7 @@ const noAnswers = (player) => {
     player.subtractPoint();
     $(`${player.getDivID()} .score span`).text(player.getScore());
     $(document).off('keypress');
-    startGame();
+    nextRound();
 }
 
 //Called if time limit reached when a player gets nailed
@@ -347,7 +369,7 @@ const nailTimeLimit = (nailee, nailer) => {
     $(`${nailee.getDivID()} .score span`).text(nailee.getScore());
     $(`${nailer.getDivID()} .score span`).text(nailer.getScore());
     $(document).off('keypress');
-    startGame();
+    nextRound();
 }
 
 const resetColors = () => {
