@@ -110,19 +110,16 @@ h3 {
 }
 
 #play {
+	border: 0px;
+	background-color: rgba(0,0,0,0);
+	font-size: 8vw;
 	padding: 0;
 	width: 13vw;
 	height: 13vw;
+	cursor: pointer;
 }
 
 #play img{
-	padding: 0;
-	width: 100%;
-	height: 100%;
-}
-
-
-#help{
 	padding: 0;
 	width: 100%;
 	height: 100%;
@@ -181,7 +178,7 @@ li {
 	padding: 0;
 	margin: 0;
 	width: 100%;
-	opacity: 100%;
+	opacity: 0%;
 }
 
 .status-bar {

@@ -45,7 +45,7 @@ class Player {
 const player1 = new Player('a', "#player1", "#p1-score");
 const player2 = new Player('l', "#player2", "#p2-score");
 
-let rounds = 5;
+let rounds = 2;
 let currentRound = 0;
 
 const openRules = () => {
@@ -61,16 +61,11 @@ const startGame = () => {
     playButton();
 }
 
-const nextRound = () => {
-    if (currentRound < rounds)
-        playButton();
-    else
-        gameOver();
-}
-
 const playButton = () => {
     $('#start-game').css('opacity', '0%');
-    $('#main-display').css('opacity', '100%');
+    $('.player').css('opacity', '100%');
+    $('#round-display h1').css('opacity', '100%');
+    $('#play-icon').attr('src', 'img/play.png')
     $('#play').on('click', async () => {
         roundDisplay();
         resetColors();
@@ -83,6 +78,13 @@ const playButton = () => {
         $('#song').attr('src', songAnswer.path);
         beginRound(3, songAnswer, songList);
     }); 
+}
+
+const nextRound = () => {
+    if (currentRound < rounds)
+        playButton();
+    else
+        gameOver();
 }
 
 const roundDisplay = () => {
@@ -101,6 +103,8 @@ const gameOver = () => {
         alert("Player 2 Wins!")
         displayWins(player2);
     }
+    $('#round-display h1').text("Game Over");
+    $('#play-icon').attr('src', 'img/note.gif');
     $('#start-game').css('opacity', '100%').text('Next Game!');
 }
 
@@ -118,6 +122,8 @@ const nextGame = (playerA, playerB) => {
     $(`${playerA.getDivID()} .5050 img`).css('opacity', '100%');
     $(`${playerB.getDivID()} .nail img`).css('opacity', '100%');
     $(`${playerB.getDivID()} .5050 img`).css('opacity', '100%');
+    $('#round-display h1').remove();
+    $('#round-display').prepend('<h1>Round <span id="round-number">1</span></h1>');
     currentRound = 0;
 }
 
@@ -160,7 +166,8 @@ const beginRound = (seconds, rightAnswer, songArray) => {
                 $('#play').text(i);
                 await oneSecond();
             }
-            $('#play').text("Play");
+            $('#play').text("");
+            $('#play').append(`<img id="play-icon" src="img/clock.gif"/>`)
             $('audio').get(0).play();
             timer(5000, beginBuzzer, endBuzzer);
             displayAnswers(rightAnswer, songArray);
@@ -240,6 +247,7 @@ const endBuzzer = () => {
     toggleBuzz();
     $(document).off('keypress');
     displayCorrectAnswer();
+    $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
 
@@ -318,6 +326,7 @@ const playerChoice = (player, opponent) => {
                 $(`${player.getDivID()} .score h1`).text(player.getScore());
                 $(`${opponent.getDivID()} .score h1`).text(opponent.getScore());
                 $(document).off('keypress');
+                $('#play-icon').attr('src', 'img/play.png');
                 nextRound();
                 }
             })
@@ -349,6 +358,7 @@ const choiceVerify = (player, event) => {
     displayCorrectAnswer();
     $(`${player.getDivID()} .score h1`).text(player.getScore());
     $(document).off('keypress');
+    $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
 //Called if a player buzzes but does not answer
@@ -357,6 +367,7 @@ const noAnswers = (player) => {
     player.subtractPoint();
     $(`${player.getDivID()} .score h1`).text(player.getScore());
     $(document).off('keypress');
+    $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
 
@@ -368,6 +379,7 @@ const nailTimeLimit = (nailee, nailer) => {
     $(`${nailee.getDivID()} .score h1`).text(nailee.getScore());
     $(`${nailer.getDivID()} .score h1`).text(nailer.getScore());
     $(document).off('keypress');
+    $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
 
