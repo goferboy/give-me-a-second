@@ -252,7 +252,7 @@ const displayCorrectAnswer = () => {
 }
 
 const displayWrongAnswer = ($selection) => {
-    $($selection).animate({backgroundColor: "red"}, 150).effect('bounce');
+    $($selection).animate({backgroundColor: "red"}, 150).effect('shake', {times:2}, 200);
 }
 
 const playerChoice = (player, opponent) => {

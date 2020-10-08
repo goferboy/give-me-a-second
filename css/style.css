@@ -3,6 +3,7 @@ body {
 	background-color: rgb(145, 228, 166);
 	margin: 0 auto;
 	text-align: center;
+	height: 100%;
 }
 
 
@@ -17,9 +18,18 @@ body {
 	align-items: center;
 }
 
-#header h1 {
-	font-size: 4em;
+h1 {
 	margin: 0;
+}
+
+h3 {
+	margin: 0;
+	padding: 0;
+}
+
+#header h1 {
+	font-size: 6vw;
+	white-space: nowrap;
 }
 
 #header button {
@@ -28,7 +38,7 @@ body {
 	border-radius: 2em;
 	border: 0;
 	padding: 10px;
-	width: 100px;
+	min-width: 100px;
 	height: 40px;
 	box-shadow: 2px 2px 2px black ;
 }
@@ -81,13 +91,25 @@ body {
 	overflow: auto;
 }
 
+#round-display h1 {
+	padding: 0px;
+	margin: 0px;
+}
+
 #play {
-    width: 200px;
-    height: 200px;
+	width: 15vw;
+	height: 15vw;
+
 }
 
 #main-display {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
 
+.score {
+	font-size: 5vw;
 }
 
 #timer {
@@ -97,22 +119,18 @@ body {
 	margin: 10px auto;
 }
 #player-board {
+	height: auto;
 	display: flex;
 	justify-content: space-between;
-	border: 1px;
+	/* border: 1px;
 	border-style: solid;
-	border-color: red
+	border-color: red */
 }
 
-.player {
-	border: 1px;
-	border-style: solid;
-	border-color: orange;
-}
 #answers {
-	border: 1px;
+	/* border: 1px;
 	border-style: solid;
-	border-color: blue;
+	border-color: blue; */
 	width: 100%;
 
 }
@@ -123,9 +141,9 @@ body {
 	align-content: stretch;
 	justify-content: stretch;
 	align-items: stretch;
-	border: 1px;
+	/* border: 1px;
 	border-style: solid;
-	border-color: magenta;
+	border-color: magenta; */
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -135,7 +153,7 @@ li {
 	flex-grow: 1;
 	justify-content: space-evenly;
 	list-style-position: inside;
-	padding: 15px;
+	padding: 1%;
 	animation-name: slidein;
 	animation-duration: 500ms;
 	animation-iteration-count: 1;
@@ -149,8 +167,12 @@ li {
 .player {
 	display: flex;
 	flex-direction: column;
-	padding: 15px;
-	width: 325px;
+	padding: 0;
+	width: 28%;
+	max-width: 260px;
+	/* border: 1px;
+	border-style: solid;
+	border-color: orange; */
 }
 
 .power-ups {
@@ -158,10 +180,24 @@ li {
 	flex-direction: row;
 }
 
+#player1 .power-ups {
+	justify-content: left;
+}
+
+#player2 .power-ups {
+	justify-content: right;
+}
+
 .player img{
 	width: 25px;
 	height: 25px;
 	padding: 10px;
+}
+
+@media screen and (min-width: 850px) {
+	#header h1 {
+		font-size: 52px;
+	}
 }
 
 @keyframes slidein {
