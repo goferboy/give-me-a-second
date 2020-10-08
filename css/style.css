@@ -1,8 +1,12 @@
 body {
 	font-family: 'Reem Kufi', sans-serif;
-	background-color: rgb(190, 171, 252);
+	background-color: rgb(145, 228, 166);
 	margin: 0 auto;
 	text-align: center;
+	height: 650px;
+	border: 1px;
+	border-style: solid;
+	border-color: magenta;
 }
 
 
@@ -32,24 +36,23 @@ body {
 	padding: 10px;
 	width: 100px;
 	height: 40px;
+	box-shadow: 2px 2px 2px black ;
+}
+
+#close-button {
+	margin: 15px;
+}
+
+#rules-button, #start-game {
 	margin-left: 55px;
 	margin-right: 55px;
-
 }
 
-#rules-button {
-
-
-}
-
-#start-game {
-
-
-}
 
 #header button:hover {
 	background-color: black;
 }
+
 
 #rules-text {
 	color: black;
@@ -67,9 +70,7 @@ body {
 	height: 100%;
 	width: 100%;
 	z-index: 1;
-	/*This puts our modal in front of the body (which has a default z-index setting of `0`*/
 	overflow: auto;
-	/*If overflow is clipped, a scroll-bar should be added to see the rest of the content*/
     display: none;
 }
 
@@ -79,7 +80,6 @@ body {
 	width: 550px;
 	border-radius: 2px;
 	margin: 150px auto;
-	/*This will set the margins for the top and the bottom to 150px (or larger). The right and left will automatically set themselves (and keep the box centered horizontally).*/
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 	/*This will give the box some depth.*/
 	padding: 2%;
@@ -93,17 +93,36 @@ body {
 }
 
 #main-display {
-    display: none;
+    
 }
 
 #timer {
     width: 300px;
     height: 10px;
 	background-color: rgba(102,255,0,1);
-	margin: 4 auto;
+	margin: 10px auto;
 }
 #player-board {
 	display: flex;
+	justify-content: space-between;
+	border: 1px;
+	border-style: solid;
+	border-color: red
+}
+
+.player {
+	border: 1px;
+	border-style: solid;
+	border-color: orange;
+}
+#answers {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	border: 1px;
+	border-style: solid;
+	border-color: blue;
+	width: 100%;
 }
 
 li {
@@ -115,7 +134,7 @@ li {
 }
 .player {
 	padding: 15px;
-	width: 200px;
+	width: 350px;
 }
 
 .power-ups {

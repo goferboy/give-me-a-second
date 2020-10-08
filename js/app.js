@@ -69,7 +69,7 @@ const nextRound = () => {
 }
 
 const playButton = () => {
-    $('#start-game').css('display', 'none');
+    $('#start-game').css('opacity', '0%');
     $('#main-display').css('display', 'block');
     $('#play').on('click', async () => {
         roundDisplay();
