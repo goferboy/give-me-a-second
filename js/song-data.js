@@ -3,7 +3,7 @@ const songList = [
         title: "Run Away With Me",
         artist: "Carly Rae Jepsen", 
         available: true, 
-        path: "audio/001.mp3"
+        path: "audio/001-1.mp3"
     }, 
     {
         title: "Atomic Dog", 

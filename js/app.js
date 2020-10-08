@@ -57,6 +57,7 @@ const closeRules = () => {
 }
 
 const startGame = () => {
+    resetColors();
     nextGame(player1, player2);
     playButton();
 }
@@ -69,7 +70,7 @@ const playButton = () => {
     $('#play').on('click', async () => {
         roundDisplay();
         resetColors();
-        $('#timer').css({
+        $('#timer').css({       
             "width": '100%',
             "background-color": "rgba(102,255,0,1)"
         })
@@ -93,14 +94,23 @@ const roundDisplay = () => {
 }
 const gameOver = () => {
     if (player1.getScore() === player2.getScore()) {
-        alert("It's A Tie!");
+        Swal.fire({
+            title: 'Tie Game!',
+            icon: 'thropy'
+        });
     }
     else if (player1.getScore() > player2.getScore()) {
-        alert("Player 1 Wins!")
+        Swal.fire({
+            title: 'Player 1 Wins!',
+            icon: 'thropy'
+        });
         displayWins(player1);
     }
     else {
-        alert("Player 2 Wins!")
+        Swal.fire({
+            title: 'Player 2 Wins!',
+            icon: 'thropy'
+        });
         displayWins(player2);
     }
     $('#round-display h1').text("Game Over");
@@ -160,18 +170,23 @@ const filterAvailableSong = (songArray) => {
 const beginRound = (seconds, rightAnswer, songArray) => {
     $('#play').off('click');
     const oneSecond = () => {
-        return new Promise(resolve => {setTimeout(resolve, 1000);})}
-        const countdown = async (seconds) => {
-            for (let i = seconds; i > 0; i--) {
-                $('#play').text(i);
-                await oneSecond();
-            }
-            $('#play').text("");
-            $('#play').append(`<img id="play-icon" src="img/clock.gif"/>`)
-            $('audio').get(0).play();
-            timer(5000, beginBuzzer, endBuzzer);
-            displayAnswers(rightAnswer, songArray);
+        return new Promise(resolve => {setTimeout(resolve, 1000);});
+    }
+    const countdown = async (seconds) => {
+        for (let i = seconds; i > 0; i--) {
+            $('#play').text(i);
+            await oneSecond();
         }
+        $('#play').text("");
+        $('#play').append(`<img id="play-icon" src="img/questionmark.gif"/>`)
+        const $audio = $('audio').get(0);
+        $audio.play();
+        setTimeout(() => {
+            $audio.pause();
+        }, 1000);
+        timer(5000, beginBuzzer, endBuzzer);
+        displayAnswers(rightAnswer, songArray);
+    }
     countdown(seconds);
 }
     
@@ -361,9 +376,12 @@ const choiceVerify = (player, event) => {
     $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
+
 //Called if a player buzzes but does not answer
 const noAnswers = (player) => {
     displayCorrectAnswer();
+    $('audio').get(0).currentTime = 0;
+    $('audio').get(0).play();
     player.subtractPoint();
     $(`${player.getDivID()} .score h1`).text(player.getScore());
     $(document).off('keypress');

@@ -110,6 +110,8 @@ h3 {
 }
 
 #play {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-shadow: 1px 4px 2px #0059ff;
 	border: 0px;
 	background-color: rgba(0,0,0,0);
 	font-size: 8vw;
@@ -201,12 +203,6 @@ li {
 	flex-direction: column;
 	justify-content: space-between;
 }
-
-/* #main-display img{
-	width: 3.7vw;
-	height: 3.7vw;
-	padding: 5px;
-} */
 
 .nail img, .player-title img, [class="5050"] img{
 	width: 3.7vw;
