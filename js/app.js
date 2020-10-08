@@ -1,5 +1,5 @@
 class Player {
-    constructor(key, divID, scoreID) {
+    constructor(key, divID) {
         this.points = 0;
         this.wins = 0;
         this.hasNail = true;
@@ -7,7 +7,6 @@ class Player {
         this.buzzKey = key;
         this.canBuzz = false;
         this.divID = divID;
-        this.scoreID = scoreID;
     }
     addPoint() {
         this.points+=100;
@@ -35,9 +34,6 @@ class Player {
     }
     getDivID() {
         return this.divID;
-    }
-    getScoreID() {
-        return this.scoreID;
     }
     newGame() {
         this.points = 0;
@@ -74,7 +70,7 @@ const nextRound = () => {
 
 const playButton = () => {
     $('#start-game').css('opacity', '0%');
-    $('#main-display').css('display', 'flex');
+    $('#main-display').css('opacity', '100%');
     $('#play').on('click', async () => {
         roundDisplay();
         resetColors();
@@ -105,7 +101,7 @@ const gameOver = () => {
         alert("Player 2 Wins!")
         displayWins(player2);
     }
-    $('#start-game').css('display', 'initial').text('Next Game!');
+    $('#start-game').css('opacity', '100%').text('Next Game!');
 }
 
 const displayWins = (winner) => {
@@ -116,8 +112,8 @@ const displayWins = (winner) => {
 const nextGame = (playerA, playerB) => {
     playerA.newGame();
     playerB.newGame();
-    $(playerA.getScoreID()).text(playerA.getScore());
-    $(playerB.getScoreID()).text(playerB.getScore());
+    $(`${playerA.getDivID()} .score h1`).text(playerA.getScore());
+    $(`${playerB.getDivID()} .score h1`).text(playerB.getScore());
     $(`${playerA.getDivID()} .nail img`).css('opacity', '100%');
     $(`${playerA.getDivID()} .5050 img`).css('opacity', '100%');
     $(`${playerB.getDivID()} .nail img`).css('opacity', '100%');
@@ -277,8 +273,8 @@ const playerChoice = (player, opponent) => {
             while (deletedTwo < 2) {
                 let randomIndex = Math.floor(Math.random() * $answers.length);
                 if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
-                    $($answers[randomIndex]).text() !== "") {
-                    $($answers[randomIndex]).text("").css('list-style-type', 'none');
+                    $($answers[randomIndex]).text() !== '-') {
+                    $($answers[randomIndex]).text('-').css('list-style-type', 'none');
                     remainingIndex[randomIndex] = 0;
                     deletedTwo++;
                 }
@@ -319,8 +315,8 @@ const playerChoice = (player, opponent) => {
                         player.addPoint();
                     }
                 displayCorrectAnswer();
-                $(player.getScoreID()).text(player.getScore());
-                $(opponent.getScoreID()).text(opponent.getScore());
+                $(`${player.getDivID()} .score h1`).text(player.getScore());
+                $(`${opponent.getDivID()} .score h1`).text(opponent.getScore());
                 $(document).off('keypress');
                 nextRound();
                 }
@@ -351,7 +347,7 @@ const choiceVerify = (player, event) => {
     }
     $('#timer').stop();
     displayCorrectAnswer();
-    $(player.getScoreID()).text(player.getScore());
+    $(`${player.getDivID()} .score h1`).text(player.getScore());
     $(document).off('keypress');
     nextRound();
 }
@@ -359,7 +355,7 @@ const choiceVerify = (player, event) => {
 const noAnswers = (player) => {
     displayCorrectAnswer();
     player.subtractPoint();
-    $(player.getScoreID()).text(player.getScore());
+    $(`${player.getDivID()} .score h1`).text(player.getScore());
     $(document).off('keypress');
     nextRound();
 }
@@ -369,8 +365,8 @@ const nailTimeLimit = (nailee, nailer) => {
     displayCorrectAnswer();
     nailee.subtractPoint();
     nailer.addPoint();
-    $(nailee.getScoreID()).text(nailee.getScore());
-    $(nailer.getScoreID()).text(nailer.getScore());
+    $(`${nailee.getDivID()} .score h1`).text(nailee.getScore());
+    $(`${nailer.getDivID()} .score h1`).text(nailer.getScore());
     $(document).off('keypress');
     nextRound();
 }
