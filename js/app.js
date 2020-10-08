@@ -10,9 +10,21 @@ class Player {
     }
     addPoint() {
         this.points+=100;
+        $(`${this.getDivID()} .score h1`).animate({
+            color: "#26bf0f"
+        }, 900).text(this.points);
+        $(`${this.getDivID()} .score h1`).animate({
+            color: "black"
+        }, 100);
     }
     subtractPoint() {
         this.points-=100;
+        $(`${this.getDivID()} .score h1`).animate({
+            color: "red"
+        }, 900).text(this.points);
+        $(`${this.getDivID()} .score h1`).animate({
+            color: "black"
+        }, 100);
     }
     getScore() {
         return this.points;
@@ -66,7 +78,7 @@ const playButton = () => {
     $('#start-game').css('opacity', '0%');
     $('.player').css('opacity', '100%');
     $('#round-display h1').css('opacity', '100%');
-    $('#play-icon').attr('src', 'img/play.png')
+    $('#play-icon').attr('src', 'img/play.png');
     $('#play').on('click', async () => {
         roundDisplay();
         resetColors();
@@ -93,29 +105,30 @@ const roundDisplay = () => {
     $('#round-number').text(currentRound);
 }
 const gameOver = () => {
-    if (player1.getScore() === player2.getScore()) {
-        Swal.fire({
-            title: 'Tie Game!',
-            icon: 'thropy'
-        });
-    }
-    else if (player1.getScore() > player2.getScore()) {
-        Swal.fire({
-            title: 'Player 1 Wins!',
-            icon: 'thropy'
-        });
-        displayWins(player1);
-    }
-    else {
-        Swal.fire({
-            title: 'Player 2 Wins!',
-            icon: 'thropy'
-        });
-        displayWins(player2);
-    }
-    $('#round-display h1').text("Game Over");
-    $('#play-icon').attr('src', 'img/note.gif');
-    $('#start-game').css('opacity', '100%').text('Next Game!');
+    $('#play').on('click', () => {
+        resetColors();
+        if (player1.getScore() === player2.getScore()) {
+            Swal.fire({
+                title: 'Tie Game!',
+            });
+        }
+        else if (player1.getScore() > player2.getScore()) {
+            Swal.fire({
+                title: 'Player 1 Wins!',
+            });
+            displayWins(player1);
+        }
+        else {
+            Swal.fire({
+                title: 'Player 2 Wins!',
+            });
+            displayWins(player2);
+        }
+        $('#play').off('click');
+        $('#round-display h1').text("Game Over");
+        $('#play-icon').attr('src', 'img/note.gif');
+        $('#start-game').css('opacity', '100%').text('Next Game!');
+    }); 
 }
 
 const displayWins = (winner) => {
@@ -371,7 +384,7 @@ const choiceVerify = (player, event) => {
     }
     $('#timer').stop();
     displayCorrectAnswer();
-    $(`${player.getDivID()} .score h1`).text(player.getScore());
+    //$(`${player.getDivID()} .score h1`).text(player.getScore());
     $(document).off('keypress');
     $('#play-icon').attr('src', 'img/play.png');
     nextRound();

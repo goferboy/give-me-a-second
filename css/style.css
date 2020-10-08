@@ -1,6 +1,6 @@
 body {
 	font-family: 'Reem Kufi', sans-serif;
-	background-color: rgb(145, 228, 166);
+	background-color: #C2F970;
 	margin: 0 auto;
 	text-align: center;
 	height: 100%;
@@ -30,6 +30,7 @@ h3 {
 #header h1 {
 	font-size: 6vw;
 	white-space: nowrap;
+	text-shadow: 2px 2px black;
 }
 
 #header button {
@@ -43,6 +44,7 @@ h3 {
 	box-shadow: 2px 2px 2px black;
 	overflow: hidden;
 	white-space: nowrap;
+	cursor: pointer;
 }
 
 #close-button {
@@ -56,9 +58,14 @@ h3 {
 
 
 #header button:hover {
-	background-color: black;
+	background-color: #ccb2e6;
 }
 
+#header button:active {
+	background-color: #ccb2e6;
+	transform: translateY(1px) translateX(1px);
+	box-shadow: 1px 1px 1px black;
+}
 
 #rules-text {
 	color: black;
@@ -121,6 +128,10 @@ h3 {
 	cursor: pointer;
 }
 
+#play:active {
+	transform: translateY(4px);
+}
+
 #play img{
 	padding: 0;
 	width: 100%;
@@ -157,7 +168,14 @@ h3 {
 	padding: 0;
 }
 
+ol {
+	box-shadow: 3px 3px 2px black;
+	text-shadow: 2px 2px 0px black;
+}
+
 li {
+	background-color: rgb(135, 63, 252);
+	color: white;
 	flex-grow: 1;
 	justify-content: space-evenly;
 	list-style-position: inside;
@@ -166,10 +184,11 @@ li {
 	animation-duration: 500ms;
 	animation-iteration-count: 1;
 	animation-direction: normal;
-	background-color: aqua;
 	font-size: 25px;
 	margin: 5px;
 	border-radius: 2em;
+	box-shadow: 3px 3px 2px black;
+	text-shadow: 2px 2px 0px black;
 }
 
 .player {
