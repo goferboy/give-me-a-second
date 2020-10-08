@@ -91,9 +91,19 @@ h3 {
 	overflow: auto;
 }
 
+#status-bar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0%;
+	margin: 0px;
+	
+}
+
 #round-display h1 {
 	padding: 0px;
 	margin: 0px;
+	width: 15vw;
 }
 
 #play {
@@ -110,6 +120,13 @@ h3 {
 
 .score {
 	font-size: 5vw;
+	margin: 0 20px 0 20px;
+	width: 50%;
+	border: 1px;
+	margin: 0;
+	padding: 0;
+	border-style: solid;
+	border-color: black;
 }
 
 #timer {
@@ -118,21 +135,9 @@ h3 {
 	background-color: rgba(102,255,0,1);
 	margin: 10px auto;
 }
-#player-board {
-	height: auto;
-	display: flex;
-	justify-content: space-between;
-	/* border: 1px;
-	border-style: solid;
-	border-color: red */
-}
 
 #answers {
-	/* border: 1px;
-	border-style: solid;
-	border-color: blue; */
 	width: 100%;
-
 }
 
 #selection {
@@ -144,7 +149,7 @@ h3 {
 	/* border: 1px;
 	border-style: solid;
 	border-color: magenta; */
-	height: 100%;
+	height: auto;
 	margin: 0;
 	padding: 0;
 }
@@ -166,13 +171,14 @@ li {
 
 .player {
 	display: flex;
-	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
 	padding: 0;
-	width: 28%;
-	max-width: 260px;
-	/* border: 1px;
+	margin: 0;
+	border: 1px;
 	border-style: solid;
-	border-color: orange; */
+	border-color: orange;
+	width: 100%;
 }
 
 .power-ups {
@@ -180,18 +186,11 @@ li {
 	flex-direction: row;
 }
 
-#player1 .power-ups {
-	justify-content: left;
-}
-
-#player2 .power-ups {
-	justify-content: right;
-}
-
-.player img{
-	width: 25px;
-	height: 25px;
-	padding: 10px;
+#status-bar img{
+	width: 40%;
+	max-width: 40px;
+	max-height: 40px;
+	padding: auto;
 }
 
 @media screen and (min-width: 850px) {
