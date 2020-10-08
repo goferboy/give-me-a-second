@@ -34,13 +34,15 @@ h3 {
 
 #header button {
 	font-family: 'Reem Kufi', sans-serif;
-	font-size: 15px;
+	font-size: 1.8vw;
 	border-radius: 2em;
 	border: 0;
 	padding: 10px;
-	min-width: 100px;
-	height: 40px;
-	box-shadow: 2px 2px 2px black ;
+	width: auto;
+	height: auto;
+	box-shadow: 2px 2px 2px black;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 #close-button {
@@ -97,19 +99,33 @@ h3 {
 	align-items: center;
 	padding: 0%;
 	margin: 0px;
-	opacity: 0%;
 }
 
 #round-display h1 {
 	padding: 0px;
 	margin: 0px;
 	width: 13vw;
+	font-size: 3.5vw;
+	opacity: 0%;
 }
 
 #play {
+	padding: 0;
 	width: 13vw;
 	height: 13vw;
+}
 
+#play img{
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+#help{
+	padding: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .score {
@@ -165,6 +181,7 @@ li {
 	padding: 0;
 	margin: 0;
 	width: 100%;
+	opacity: 100%;
 }
 
 .status-bar {
@@ -188,15 +205,52 @@ li {
 	justify-content: space-between;
 }
 
-#main-display img{
-	width: 30px;
-	height: 30px;
+/* #main-display img{
+	width: 3.7vw;
+	height: 3.7vw;
 	padding: 5px;
+} */
+
+.nail img, .player-title img, [class="5050"] img{
+	width: 3.7vw;
+	height: 3.7vw;
+	padding: 5px;
+}
+
+.player-title h1 {
+	font-size: 3.5vw;
+}
+
+.wins h2 {
+	font-size: 3vw;
 }
 
 @media screen and (min-width: 850px) {
 	#header h1 {
 		font-size: 52px;
+	}
+
+	.nail img, .player-title img, [class="5050"] img {
+		width: 30px;
+		height: 30px;
+		padding: 5px;
+	}
+
+	#round-display h1 {
+		font-size: 30px;
+	}
+
+	.player-title h1 {
+		font-size: 30px;
+	}
+
+	.wins h2 {
+		font-size: 26px;
+	}
+	#header button {
+		font-size: 15px;
+		width: 100px;
+		height: 40px;
 	}
 }
 
