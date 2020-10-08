@@ -3,10 +3,6 @@ body {
 	background-color: rgb(145, 228, 166);
 	margin: 0 auto;
 	text-align: center;
-	height: 650px;
-	border: 1px;
-	border-style: solid;
-	border-color: magenta;
 }
 
 
@@ -97,7 +93,7 @@ body {
 }
 
 #timer {
-    width: 300px;
+    width: 100%;
     height: 10px;
 	background-color: rgba(102,255,0,1);
 	margin: 10px auto;
@@ -116,22 +112,41 @@ body {
 	border-color: orange;
 }
 #answers {
-	display: flex;
-	flex-direction: column;
-	align-content: center;
 	border: 1px;
 	border-style: solid;
 	border-color: blue;
 	width: 100%;
+
+}
+
+#selection {
+	display: flex;
+	flex-direction: column;
+	align-content: stretch;
+	justify-content: stretch;
+	align-items: stretch;
+	border: 1px;
+	border-style: solid;
+	border-color: magenta;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 li {
+	flex-grow: 1;
+	justify-content: space-evenly;
+	list-style-position: inside;
+	padding: 15px;
 	animation-name: slidein;
 	animation-duration: 500ms;
 	animation-iteration-count: 1;
 	animation-direction: normal;
-
+	background-color: aqua;
+	font-size: 25px;
+	margin: 5px;
 }
+
 .player {
 	padding: 15px;
 	width: 350px;

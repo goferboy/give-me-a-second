@@ -75,7 +75,7 @@ const playButton = () => {
         roundDisplay();
         resetColors();
         $('#timer').css({
-            "width": "300px",
+            "width": `${$('#answers').width()}`,
             "background-color": "rgba(102,255,0,1)"
         })
         $('#selection').empty();
@@ -172,7 +172,7 @@ const timer = (length, startFunc, endFunc) => {
     $('#timer').stop();
     $('#timer').css({
         "background-color": "rgba(102,255,0,1)",
-        "width": "300px"
+        "width": `${$('#answers').width()}`
     })
     $('#timer').animate({
         "background-color": "red",
@@ -377,6 +377,7 @@ const resetColors = () => {
 }
 
 $(() => {
+    $('#timer').css("width", `${$('#answers').width()}`);
     $('#rules-button').on('click', openRules);
     $('#close-button').on('click', closeRules);
     $('#start-game').on('click', startGame);
