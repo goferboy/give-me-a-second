@@ -9,7 +9,7 @@ body {
 #header {
 	background-color: rgb(135, 63, 252);
 	color: white;
-	position: absolute;
+	position: relative;
 	top: 0;
 	width: 100%;
 	display: flex;
@@ -18,8 +18,6 @@ body {
 }
 
 #header h1 {
-	position: relative;
-	top: 0;
 	font-size: 4em;
 	margin: 0;
 }
@@ -84,17 +82,17 @@ body {
 }
 
 #play {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
 }
 
 #main-display {
-    
+
 }
 
 #timer {
     width: 100%;
-    height: 10px;
+    height: 20px;
 	background-color: rgba(102,255,0,1);
 	margin: 10px auto;
 }
@@ -145,17 +143,19 @@ li {
 	background-color: aqua;
 	font-size: 25px;
 	margin: 5px;
+	border-radius: 2em;
 }
 
 .player {
+	display: flex;
+	flex-direction: column;
 	padding: 15px;
-	width: 350px;
+	width: 325px;
 }
 
 .power-ups {
 	display: flex;
-	justify-content: space-around;
-	width: 150px;
+	flex-direction: row;
 }
 
 .player img{

@@ -274,7 +274,7 @@ const playerChoice = (player, opponent) => {
                 let randomIndex = Math.floor(Math.random() * $answers.length);
                 if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
                     $($answers[randomIndex]).text() !== "") {
-                    $($answers[randomIndex]).text("");
+                    $($answers[randomIndex]).text("").css('list-style-type', 'none');
                     remainingIndex[randomIndex] = 0;
                     deletedTwo++;
                 }
