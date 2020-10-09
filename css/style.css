@@ -1,6 +1,6 @@
 body {
 	font-family: 'Reem Kufi', sans-serif;
-	background-color: #C2F970;
+	background-color: #D5FB9D;
 	margin: 0 auto;
 	text-align: center;
 	height: 100%;
@@ -27,7 +27,7 @@ h3 {
 	padding: 0;
 }
 
-#header h1 {
+#title {
 	font-size: 6vw;
 	white-space: nowrap;
 	text-shadow: 2px 2px black;
@@ -67,16 +67,8 @@ h3 {
 	box-shadow: 1px 1px 1px black;
 }
 
-#rules-text {
-	color: black;
-}
-
-#rules-text h1 {
-	font-size: 2em;
-}
-
 #rules-modal {
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.3);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -88,16 +80,36 @@ h3 {
 }
 
 #rules-text {
-	background-color: white;
+	background-color:  white;
+	color: black;
 	height: 350px;
 	width: 550px;
 	border-radius: 2px;
 	margin: 150px auto;
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-	/*This will give the box some depth.*/
 	padding: 2%;
 	line-height: 120%;
 	overflow: auto;
+}
+
+#rules-text h1{
+	font-size: 35px;
+	margin: 10px 10px 20px 10px;
+}
+
+#rules-text p {
+	text-align: justify;
+	font-size: 18px;
+	padding: 3px;
+}
+
+#rules-text li {
+	margin: 0;
+}
+
+#rules-text img {
+	width: 15px;
+	height: 15px;
 }
 
 #main-display {
@@ -118,7 +130,7 @@ h3 {
 
 #play {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	text-shadow: 1px 4px 2px #0059ff;
+	text-shadow: 1px 4px 2px rgb(135, 63, 252);
 	border: 0px;
 	background-color: rgba(0,0,0,0);
 	font-size: 8vw;
@@ -152,6 +164,9 @@ h3 {
     height: 20px;
 	background-color: rgba(102,255,0,1);
 	margin: 10px auto;
+	border: 1px;
+	border-style: solid none solid none;
+	border-color: black;
 }
 
 #answers {
@@ -168,12 +183,7 @@ h3 {
 	padding: 0;
 }
 
-ol {
-	box-shadow: 3px 3px 2px black;
-	text-shadow: 2px 2px 0px black;
-}
-
-li {
+#selection li {
 	background-color: rgb(135, 63, 252);
 	color: white;
 	flex-grow: 1;
@@ -238,7 +248,7 @@ li {
 }
 
 @media screen and (min-width: 850px) {
-	#header h1 {
+	#title {
 		font-size: 52px;
 	}
 

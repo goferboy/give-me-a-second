@@ -18,22 +18,45 @@
     <body>
         <div id="header">
             <button id="rules-button" class="modal-buttons" type="button">How To Play</button>
-            <h1>Give Me A Second!</h1>
+            <h1 id="title">Give Me A Second!</h1>
             <button id="start-game" type="button">Begin Game!</button>
             <div id="rules-modal">
                 <div id="rules-text">
                     <h1>Welcome to "Give Me a Second!"</h1>
                     <h3>A 2-Player "Guess That Tune" game where you only have
                         one second to figure out the song!</h3>
-                    <p>You and your opponent must buzz in after a song plays and correctly guess which song it is.</p>
-                    <p>Guess right, you gain 100 points, but guess wrong, and you lose 100! Who ever has the highest score when the game ends, wins!</p>
-                    <h4>How to play:</h4>
-                    <p>When both players are ready, click on the play button. After the countdown the song will play</p>
-                    <p>Four possible songs will then pop up. If you know what it is, you must buzz in before your opponent does</p>
-                    <p>Player one's buzzer is the key 'A' and Player two's buzzer is the key 'L'</p>
-                    <p>After buzzing in, select the corresponding you want, (1-4).</p>
-                    <p>Feeling stumped? Every player has one chance to use a 50/50 power up, where two of the wrong answers will be removed!</p>
-
+                    <p>You and your opponent must buzz in after a song plays and correctly 
+                       guess which song it is. Guess right, you gain 100 points, but guess
+                        wrong, and you lose 100! Who ever has the highest score after five 
+                        rounds, wins!</p>
+                    <h3>How to play:</h3>
+                    <ul>
+                        <li><p>When both players are ready to begin the game, click on 'Begin Game!' in the upper right.</p></li>
+                        <li><p>The main display will show up, showing Player 1's side on the left, and
+                            Player's two side on the right.</p></li>
+                        <li><p>When both players are ready, hit the center Play <img src="img/play.png"/> icon.</p></li>
+                        <li><p>After a countdown of three, the song sample will play and the round will begin</p></li>
+                        <li><p>After the song plays, 4 possible choices will appear, with only one of them correct</p></li>
+                        <li><p>A timer bar will also start to shrink from green to red.</p></li>
+                        <li><p>Each player has their own buzzer, Player 1's is the 'A' Key <img src="img/akey.png"/> and 
+                            Player 2's is the 'L' Key <img src="img/lkey.png"/>.</p></li>
+                        <li><p>Before the timer bar shrinks and disappears, a play must buzz in and select one of 
+                            the answers by hitting the '1', '2', '3', or '4' key</p></li>
+                        <li><p>If they get it right, they get 100 points! But if they get it wrong, they lose 100!</p></li>
+                        <li><p>After an answer has been selected or the timer runs out, the play button will re-appear. 
+                            Click on it when you're ready for the next round.</p></li>
+                        <li><p>This will continue till all 5 rounds have finished. Winner will have the most points</p></li>
+                        <li><p>Each player also has a pair of single-use power ups they can use!</p></li>
+                        <li><p>To use them, a player must first buzz in before the timer is gone, then press the respective 
+                            key corresponding to the power up they want to use. Remember: you can only use each one ONCE!</p></li>
+                        <li><p><img src="img/5050.png"/>50/50 ('C' Key <img src="img/ckey.png"/>): Need help deciding? 
+                            This will remove two wrong answers.</p></li>
+                        <li><p><img src="img/nail.png"/>Nail ('N' Key <img src="img/nkey.png"/>): Thinks your opponent 
+                            doesn't know the answer? Bet on it! Using this option forces your opponent to answer. If they
+                            get it wrong, they lose 100 points, and you gain 100! But be careful, if they get it right,
+                            they take your 100 points from you!</p></li>
+                        <li><p>After finishing a game, click 'Next Game!' to play again! See who can get the most wins!</p></li>
+                    </ul>
                     <div id="close-footer">
                         <button id="close-button" class="modal-buttons" type="button" href="#">Close</button>
                     </div>
@@ -88,10 +111,7 @@
         <div id="timer"></div>
             <div id="answers">
                 <ol id="selection">
-                    <!-- <li>This is a song baby</li>
-                    <li>Another song that is pretty damn long like my chermical romanbce</li>
-                    <li>Im short</li>
-                    <li>The PIxies Where Is My Ming?!</li> -->
+
                 </ol>
             </div>
         </div>

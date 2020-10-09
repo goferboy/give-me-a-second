@@ -57,7 +57,7 @@ class Player {
 const player1 = new Player('a', "#player1");
 const player2 = new Player('l', "#player2");
 
-let rounds = 2;
+let rounds = 5;
 let currentRound = 0;
 
 const openRules = () => {
@@ -187,12 +187,15 @@ const beginRound = (seconds, rightAnswer, songArray) => {
     const oneSecond = () => {
         return new Promise(resolve => {setTimeout(resolve, 1000);});
     }
-    const countdown = async (seconds) => {
+    const countDown = async (seconds) => {
         for (let i = seconds; i > 0; i--) {
-            $('#play').text(i);
+            $('#play').css('opacity', '100%').text(i);
+            $('#play').animate({
+                opacity: '0%'
+            }, 900);
             await oneSecond();
         }
-        $('#play').text("");
+        $('#play').css('opacity', '100%').text("");
         $('#play').append(`<img id="play-icon" src="img/questionmark.gif"/>`)
         const $audio = $('audio').get(0);
         $audio.play();
@@ -202,7 +205,7 @@ const beginRound = (seconds, rightAnswer, songArray) => {
         timer(5000, beginBuzzer, endBuzzer);
         displayAnswers(rightAnswer, songArray);
     }
-    countdown(seconds);
+    countDown(seconds);
 }
     
 const timer = (length, startFunc, endFunc) => {
@@ -393,18 +396,18 @@ const playFullSong = () => {
 
 //Called if a player buzzes but does not answer
 const noAnswers = (player) => {
+    player.subtractPoint();
     displayCorrectAnswer();
     playFullSong();
-    player.subtractPoint();
     nextRound();
 }
 
 //Called if time limit reached when a player gets nailed
 const nailTimeLimit = (nailee, nailer) => {
-    displayCorrectAnswer();
-    playFullSong();
     nailee.subtractPoint();
     nailer.addPoint();
+    displayCorrectAnswer();
+    playFullSong();
     nextRound();
 }
 
