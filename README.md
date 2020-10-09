@@ -41,6 +41,9 @@ This was generally done by using loops that would create and filtering arrays to
 
 As for the styling, I research and read up on jQuery animate functions, as well as jQueryUI, to see if I can incorporate any to help users with visual cues and interactions. Styling is what took me the longest, as it was a constant experiment of trying this or that, loading onto different browsers and computers to see how it looked. It was annoying but not sure what else to do when using CSS with only a text editor from scratch.
 
+## Known Bugs
+* If run on firefox through github pages, the mp3 doesn't load fast enough to play before it pauses after one second. This is no problem through local, so I'm guessing it's how firefox catches the file. This problem doesn't seem to happen with Chrome though.
+
 ## Installation guide
 Only requirements are:
 * Tested to work on Chrome and Firefox (though LI elements for the answers behave differently)
