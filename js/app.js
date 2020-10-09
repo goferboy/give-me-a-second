@@ -10,27 +10,27 @@ class Player {
     }
     addPoint() {
         this.points+=100;
-        $(`${this.getDivID()} .score h1`).animate({
-            color: "#26bf0f"
-        }, 900).text(this.points);
+        $(`${this.getDivID()} .score h1`).css("color", "green").text(this.points);
         $(`${this.getDivID()} .score h1`).animate({
             color: "black"
-        }, 100);
+        }, 1000);
     }
     subtractPoint() {
         this.points-=100;
-        $(`${this.getDivID()} .score h1`).animate({
-            color: "red"
-        }, 900).text(this.points);
+        $(`${this.getDivID()} .score h1`).css("color", "red").text(this.points);
         $(`${this.getDivID()} .score h1`).animate({
             color: "black"
-        }, 100);
+        }, 1000);
     }
     getScore() {
         return this.points;
     }
     addWin() {
         this.wins++;
+        $(`${this.getDivID()} .wins span`).css("color", "green").text(this.wins);
+        $(`${this.getDivID()} .wins span`).animate({
+            color: "black"
+        }, 1000);
     }
     getWins() {
         return this.wins;
@@ -54,8 +54,8 @@ class Player {
     }
 }
 
-const player1 = new Player('a', "#player1", "#p1-score");
-const player2 = new Player('l', "#player2", "#p2-score");
+const player1 = new Player('a', "#player1");
+const player2 = new Player('l', "#player2");
 
 let rounds = 2;
 let currentRound = 0;
@@ -94,6 +94,8 @@ const playButton = () => {
 }
 
 const nextRound = () => {
+    $(document).off('keypress');
+    $('#play-icon').attr('src', 'img/play.png');
     if (currentRound < rounds)
         playButton();
     else
@@ -116,13 +118,13 @@ const gameOver = () => {
             Swal.fire({
                 title: 'Player 1 Wins!',
             });
-            displayWins(player1);
+            player1.addWin();
         }
         else {
             Swal.fire({
                 title: 'Player 2 Wins!',
             });
-            displayWins(player2);
+            player2.addWin();
         }
         $('#play').off('click');
         $('#round-display h1').text("Game Over");
@@ -273,9 +275,8 @@ const beginBuzzer = () => {
 //Is only called if no players buzz at all during round
 const endBuzzer = () => {
     toggleBuzz();
-    $(document).off('keypress');
     displayCorrectAnswer();
-    $('#play-icon').attr('src', 'img/play.png');
+    playFullSong();
     nextRound();
 }
 
@@ -351,10 +352,7 @@ const playerChoice = (player, opponent) => {
                         player.addPoint();
                     }
                 displayCorrectAnswer();
-                $(`${player.getDivID()} .score h1`).text(player.getScore());
-                $(`${opponent.getDivID()} .score h1`).text(opponent.getScore());
-                $(document).off('keypress');
-                $('#play-icon').attr('src', 'img/play.png');
+                playFullSong();
                 nextRound();
                 }
             })
@@ -384,33 +382,29 @@ const choiceVerify = (player, event) => {
     }
     $('#timer').stop();
     displayCorrectAnswer();
-    //$(`${player.getDivID()} .score h1`).text(player.getScore());
-    $(document).off('keypress');
-    $('#play-icon').attr('src', 'img/play.png');
+    playFullSong();
     nextRound();
+}
+
+const playFullSong = () => {
+    $('audio').get(0).currentTime = 0;
+    $('audio').get(0).play();
 }
 
 //Called if a player buzzes but does not answer
 const noAnswers = (player) => {
     displayCorrectAnswer();
-    $('audio').get(0).currentTime = 0;
-    $('audio').get(0).play();
+    playFullSong();
     player.subtractPoint();
-    $(`${player.getDivID()} .score h1`).text(player.getScore());
-    $(document).off('keypress');
-    $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
 
 //Called if time limit reached when a player gets nailed
 const nailTimeLimit = (nailee, nailer) => {
     displayCorrectAnswer();
+    playFullSong();
     nailee.subtractPoint();
     nailer.addPoint();
-    $(`${nailee.getDivID()} .score h1`).text(nailee.getScore());
-    $(`${nailer.getDivID()} .score h1`).text(nailer.getScore());
-    $(document).off('keypress');
-    $('#play-icon').attr('src', 'img/play.png');
     nextRound();
 }
 
