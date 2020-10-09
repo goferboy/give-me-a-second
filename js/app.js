@@ -310,7 +310,6 @@ const playerChoice = (player, opponent) => {
             $(document).off('keypress');
             let deletedTwo = 0;
             let remainingIndex = [1, 2, 3, 4];
-            console.log(remainingIndex);
             while (deletedTwo < 2) {
                 let randomIndex = Math.floor(Math.random() * $answers.length);
                 if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
