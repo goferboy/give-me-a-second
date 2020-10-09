@@ -284,7 +284,7 @@ const endBuzzer = () => {
 }
 
 const displayCorrectAnswer = () => {
-    const $answers = $('li');
+    const $answers = $('#selection li');
     for (let i = 0; i < $answers.length; i++) {
         if ($($answers[i]).attr('class') === 'correct-answer')
             $($answers[i]).animate({backgroundColor: "green"});
@@ -297,7 +297,7 @@ const displayWrongAnswer = ($selection) => {
 
 const playerChoice = (player, opponent) => {
     $(document).keypress((event) => {
-        const $answers = $('li');
+        const $answers = $('#selection li');
         //when a player wishes to make an answer
         if (event.which === '1'.charCodeAt(0) || event.which === '2'.charCodeAt(0) ||
             event.which === '3'.charCodeAt(0) || event.which === '4'.charCodeAt(0)) {
@@ -310,6 +310,7 @@ const playerChoice = (player, opponent) => {
             $(document).off('keypress');
             let deletedTwo = 0;
             let remainingIndex = [1, 2, 3, 4];
+            console.log(remainingIndex);
             while (deletedTwo < 2) {
                 let randomIndex = Math.floor(Math.random() * $answers.length);
                 if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
@@ -374,7 +375,7 @@ const use5050 = (player) => {
 }
 
 const choiceVerify = (player, event) => {
-    const $answers = $('li');
+    const $answers = $('#selection li');
     let selection = String.fromCharCode(event.which) - 1;
     if ($($answers[selection]).attr('class') === 'correct-answer') {
         player.addPoint();
