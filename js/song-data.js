@@ -111,12 +111,12 @@ const songList = [
         title: "Sound Of Silence", 
         artist: "Simon & Garfunkel", 
         available: true, 
-        path: "audio/005.mp3"
+        path: "audio/019.mp3"
     },
     {
         title: "The Mollusk", 
         artist: "Ween", 
         available: true, 
-        path: "audio/006.mp3"
+        path: "audio/020.mp3"
     }
 ];
