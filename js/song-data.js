@@ -28,13 +28,13 @@ const songList = [
         artist: "The Pixies", 
         available: true, 
         path: "audio/005.mp3"
-    }
+    },
     {
         title: "Head Over Heals", 
         artist: "Tears For Fears", 
         available: true, 
         path: "audio/006.mp3"
-    }
+    },
     {
         title: "Gotta Get Up", 
         artist: "Harry Nilsson",
@@ -52,13 +52,13 @@ const songList = [
         artist: "Lipps, Inc.", 
         available: true, 
         path: "audio/009.mp3"
-    }
+    },
     {
         title: "Running Up That Hill", 
         artist: "Kate Bush", 
         available: true, 
         path: "audio/010.mp3"
-    }
+    },
     {
         title: "Psycho Killer",
         artist: "Talking Heads", 
@@ -88,13 +88,13 @@ const songList = [
         artist: "They Might Be Giants", 
         available: true, 
         path: "audio/015.mp3"
-    }
+    },
     {
         title: "The Killing Moon", 
         artist: "Echo And The Bunnymen", 
         available: true, 
         path: "audio/016.mp3"
-    }
+    },
     {
         title: "3030", 
         artist: "Deltron 3030",
@@ -112,7 +112,7 @@ const songList = [
         artist: "Simon & Garfunkel", 
         available: true, 
         path: "audio/005.mp3"
-    }
+    },
     {
         title: "The Mollusk", 
         artist: "Ween", 
