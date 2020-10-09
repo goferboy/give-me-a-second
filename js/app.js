@@ -57,7 +57,7 @@ class Player {
 const player1 = new Player('a', "#player1");
 const player2 = new Player('l', "#player2");
 
-let rounds = 5;
+let rounds = 0;
 let currentRound = 0;
 
 const openRules = () => {
@@ -111,18 +111,30 @@ const gameOver = () => {
         resetColors();
         if (player1.getScore() === player2.getScore()) {
             Swal.fire({
-                title: 'Tie Game!',
+                background: "#D5FB9D",
+                icon: 'question',
+                title: 'Tie Game! NO WINNERS HERE!',
+                confirmButtonColor: "#873ffc",
+                confirmButtonText: "What?!"
             });
         }
         else if (player1.getScore() > player2.getScore()) {
             Swal.fire({
-                title: 'Player 1 Wins!',
+                background: "#D5FB9D",
+                title: 'Congrats, Player 1! You Win!',
+                icon: 'success',
+                confirmButtonColor: "#873ffc",
+                confirmButtonText: "Yay!"
             });
             player1.addWin();
         }
         else {
             Swal.fire({
-                title: 'Player 2 Wins!',
+                background: "#D5FB9D",
+                title: 'Congrats, Player 2! You Win!',
+                icon: 'success',
+                confirmButtonColor: "#873ffc",
+                confirmButtonText: "Yay!"
             });
             player2.addWin();
         }
