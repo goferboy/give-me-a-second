@@ -3,9 +3,12 @@ body {
 	background-color: #D5FB9D;
 	margin: 0 auto;
 	text-align: center;
-	height: 100%;
+	/* height: 100%; */
 }
 
+button:focus {
+	outline: 0;
+}
 
 #header {
 	background-color: rgb(135, 63, 252);
@@ -56,7 +59,6 @@ h3 {
 	margin-right: 55px;
 }
 
-
 #header button:hover {
 	background-color: #ccb2e6;
 }
@@ -65,6 +67,7 @@ h3 {
 	background-color: #ccb2e6;
 	transform: translateY(1px) translateX(1px);
 	box-shadow: 1px 1px 1px black;
+	border: 0px;
 }
 
 #rules-modal {
@@ -247,6 +250,7 @@ h3 {
 	font-size: 3vw;
 }
 
+/* Settings for larger screen areas to prevent dynamic text sizes from being too large */
 @media screen and (min-width: 850px) {
 	#title {
 		font-size: 52px;
@@ -276,13 +280,14 @@ h3 {
 	}
 }
 
-@keyframes slidein {
-	from {
-		margin-left: 0%;
-		width: 0%;
+/* Animation CSS for #selection list elements */
+@-webkit-keyframes slidein {
+	from {		
+		margin-top: 100%;
+		height: 0%;
 	}
 	to {
-		margin-left: 100%;
-		width: 100%;
+		margin: 5px;
+		height: 100%;
 	}
 }

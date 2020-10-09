@@ -57,7 +57,7 @@ class Player {
 const player1 = new Player('a', "#player1");
 const player2 = new Player('l', "#player2");
 
-let rounds = 0;
+let rounds = 5;
 let currentRound = 0;
 
 const openRules = () => {
@@ -74,6 +74,7 @@ const startGame = () => {
     playButton();
 }
 
+//sets up the listeners for the play button before a round begins.
 const playButton = () => {
     $('#start-game').css('opacity', '0%');
     $('.player').css('opacity', '100%');
@@ -93,6 +94,7 @@ const playButton = () => {
     }); 
 }
 
+//Decides if there is another round to play, otherwise, the game is over.
 const nextRound = () => {
     $(document).off('keypress');
     $('#play-icon').attr('src', 'img/play.png');
@@ -106,6 +108,8 @@ const roundDisplay = () => {
     currentRound++;
     $('#round-number').text(currentRound);
 }
+
+//After all rounds are completed, figures out who won
 const gameOver = () => {
     $('#play').on('click', () => {
         resetColors();
@@ -150,6 +154,7 @@ const displayWins = (winner) => {
     $(`${winner.getDivID()} .wins span`).text(winner.getWins());
 }
 
+//Resets player values (except wins) and DOM/display elements
 const nextGame = (playerA, playerB) => {
     playerA.newGame();
     playerB.newGame();
@@ -194,12 +199,16 @@ const filterAvailableSong = (songArray) => {
     return song;
 }
 
+//Does a countdown length based on 'seconds' argument till song plays, then starts timer
+//and displays possible answers for players 
 const beginRound = (seconds, rightAnswer, songArray) => {
     $('#play').off('click');
+    //helper function that returns a promise after one second has passed
     const oneSecond = () => {
         return new Promise(resolve => {setTimeout(resolve, 1000);});
     }
     const countDown = async (seconds) => {
+        //injects a countdown timer with some animation effects
         for (let i = seconds; i > 0; i--) {
             $('#play').css('opacity', '100%').text(i);
             $('#play').animate({
@@ -211,6 +220,7 @@ const beginRound = (seconds, rightAnswer, songArray) => {
         $('#play').append(`<img id="play-icon" src="img/questionmark.gif"/>`)
         const $audio = $('audio').get(0);
         $audio.play();
+        //pauses the audio after one second.
         setTimeout(() => {
             $audio.pause();
         }, 1000);
@@ -219,7 +229,9 @@ const beginRound = (seconds, rightAnswer, songArray) => {
     }
     countDown(seconds);
 }
-    
+
+//Length is passed as a positive integer, in milliseconds. Can also pass starting and ending
+//functions. Typically the ending functions passed are when the timer runs out
 const timer = (length, startFunc, endFunc) => {
     $('#timer').stop();
     $('#timer').css({
@@ -268,6 +280,7 @@ const toggleBuzz = () => {
     player2.canBuzz = !player2.canBuzz;
 }
 
+//Turns on listeners for player's buzzers, as well as animations 
 const beginBuzzer = () => {
     toggleBuzz();
     $(document).keypress((event) => {
@@ -304,9 +317,10 @@ const displayCorrectAnswer = () => {
 }
 
 const displayWrongAnswer = ($selection) => {
-    $($selection).animate({backgroundColor: "red"}, 150).effect('shake', {times:2}, 200);
+    $($selection).animate({backgroundColor: "red"}, 150);
 }
 
+//After a player buzzes, turns on and off listeners at appropriate times based on selection
 const playerChoice = (player, opponent) => {
     $(document).keypress((event) => {
         const $answers = $('#selection li');
@@ -319,19 +333,28 @@ const playerChoice = (player, opponent) => {
         if ((event.which === 'c'.charCodeAt(0) || event.which === 'C'.charCodeAt(0))
             && player.can5050()) {
             use5050(player);
+            //turn off dom to prevent pressing other options
             $(document).off('keypress');
+            //deleteTwo variable keeps track for while lop to make sure two answers are deleted
             let deletedTwo = 0;
+            //remainingIndex provides which numeral selections are available after the deletion
             let remainingIndex = [1, 2, 3, 4];
+            //While loop as its possible for a randomIndex to get the same number more than once
             while (deletedTwo < 2) {
                 let randomIndex = Math.floor(Math.random() * $answers.length);
+                //Verifies that the randomIndex is empty, otherwise runs another iteration
                 if ($($answers[randomIndex]).attr('class') === "wrong-answer" &&
                     $($answers[randomIndex]).text() !== '-') {
                     $($answers[randomIndex]).text('-').css('list-style-type', 'none');
+                    //marks coinciding index to 0 to help filter available answers after loop
                     remainingIndex[randomIndex] = 0;
                     deletedTwo++;
                 }
             }
+            //filters out all 0 marked indexes, returning an array with only two elements
+            //containing the respective numebrs of the remaining answers
             remainingIndex = remainingIndex.filter(element => element !== 0);
+            //turn listeners back on for those elements
             $(document).keypress((event) => {
                 if (event.which === `${remainingIndex[0]}`.charCodeAt(0) || 
                     event.which === `${remainingIndex[1]}`.charCodeAt(0)) {
@@ -385,6 +408,10 @@ const use5050 = (player) => {
     $(`${player.getDivID()} .5050 img`).css('opacity', '25%').effect('pulsate');
 }
 
+//Checks to see if the answer (event) matches the correct-answer
+//Adds points to the player if it does, other wises subtracts points
+//Then resolves round by showing answer, playing the song, and
+//going to the nest round
 const choiceVerify = (player, event) => {
     const $answers = $('#selection li');
     let selection = String.fromCharCode(event.which) - 1;
@@ -401,6 +428,7 @@ const choiceVerify = (player, event) => {
     nextRound();
 }
 
+//Plays the current loaded song till completed
 const playFullSong = () => {
     $('audio').get(0).currentTime = 0;
     $('audio').get(0).play();
@@ -423,11 +451,14 @@ const nailTimeLimit = (nailee, nailer) => {
     nextRound();
 }
 
+//Resets the players boxes back to invisable, signifying neither are active
 const resetColors = () => {
     $('#player1').css('background-color', "rgba(0, 0, 0, 0");
     $('#player2').css('background-color', "rgba(0, 0, 0, 0");
 }
 
+//Initial listeners upon startup of game, opening and closing of the rules
+//and start of the game.
 $(() => {
     $('#rules-button').on('click', openRules);
     $('#close-button').on('click', closeRules);
