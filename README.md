@@ -50,6 +50,8 @@ Other than that, nothing to install, just run index.html to play the game.
 ## Things to Add
 I would like to have a final special round, possibly where each player could get a 3 song prompts and have to TYPE out the answer, bonus points for getting all three.
 
+Also would really help to make some sort of program or script to trim Mp3s rather than to do it manually.
+
 In ideal development world though, with the possibility of making this a viable game for the public, I would look into using Spotify's API, as it would provide licensing and hosting for songs, and could provide more information, such as album art. Possibly even a way to load custom playlists, so any user can 
 
 ## Closing Comments
