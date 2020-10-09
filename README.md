@@ -39,10 +39,18 @@ First, I spent time putting in the framework, made sure the mechanics worked bef
     * Deciding on a true answer, 3 false answers, and making sure they were all different
 This was generally done by using loops that would create and filtering arrays to filter decision making. What was likely the hardest was setting up timers by using promises, which I still don't entirely understand, but after hammering at it, I was able to get it to work.
 
+As for the styling, I research and read up on jQuery animate functions, as well as jQueryUI, to see if I can incorporate any to help users with visual cues and interactions. Styling is what took me the longest, as it was a constant experiment of trying this or that, loading onto different browsers and computers to see how it looked. It was annoying but not sure what else to do when using CSS with only a text editor from scratch.
+
 ## Installation guide
 Only requirements are:
-* Tested to work on 
+* Tested to work on Chrome and Firefox (though LI elements for the answers behave differently)
+* A keyboard or keyboard emulator for keypress inputs.
+Other than that, nothing to install, just run index.html to play the game.
 
 ## Things to Add
+I would like to have a final special round, possibly where each player could get a 3 song prompts and have to TYPE out the answer, bonus points for getting all three.
+
+In ideal development world though, with the possibility of making this a viable game for the public, I would look into using Spotify's API, as it would provide licensing and hosting for songs, and could provide more information, such as album art. Possibly even a way to load custom playlists, so any user can 
 
 ## Closing Comments
+For the most part, I enjoyed this project, and hope my roommates don't hate me too much from playing the same songs over and over again during testing and development.

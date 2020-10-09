@@ -1,65 +1,3 @@
-class Player {
-    constructor(key, divID) {
-        this.points = 0;
-        this.wins = 0;
-        this.hasNail = true;
-        this.has5050 = true;
-        this.buzzKey = key;
-        this.canBuzz = false;
-        this.divID = divID;
-    }
-    addPoint() {
-        this.points+=100;
-        $(`${this.getDivID()} .score h1`).css("color", "green").text(this.points);
-        $(`${this.getDivID()} .score h1`).animate({
-            color: "black"
-        }, 1000);
-    }
-    subtractPoint() {
-        this.points-=100;
-        $(`${this.getDivID()} .score h1`).css("color", "red").text(this.points);
-        $(`${this.getDivID()} .score h1`).animate({
-            color: "black"
-        }, 1000);
-    }
-    getScore() {
-        return this.points;
-    }
-    addWin() {
-        this.wins++;
-        $(`${this.getDivID()} .wins span`).css("color", "green").text(this.wins);
-        $(`${this.getDivID()} .wins span`).animate({
-            color: "black"
-        }, 1000);
-    }
-    getWins() {
-        return this.wins;
-    }
-    getBuzzKey() {
-        return this.buzzKey;
-    }
-    can5050() {
-        return this.has5050;
-    }
-    canNail() {
-        return this.hasNail;
-    }
-    getDivID() {
-        return this.divID;
-    }
-    newGame() {
-        this.points = 0;
-        this.hasNail = true;
-        this.has5050 = true;
-    }
-}
-
-const player1 = new Player('a', "#player1");
-const player2 = new Player('l', "#player2");
-
-let rounds = 5;
-let currentRound = 0;
-
 const openRules = () => {
     $('#rules-modal').css('display', 'block');
 }
@@ -72,6 +10,27 @@ const startGame = () => {
     resetColors();
     nextGame(player1, player2);
     playButton();
+}
+
+//Resets the players boxes back to invisable, signifying neither are active
+const resetColors = () => {
+    $('#player1').css('background-color', "rgba(0, 0, 0, 0");
+    $('#player2').css('background-color', "rgba(0, 0, 0, 0");
+}
+
+//Resets player values (except wins) and DOM/display elements
+const nextGame = (playerA, playerB) => {
+    playerA.newGame();
+    playerB.newGame();
+    $(`${playerA.getDivID()} .score h1`).text(playerA.getScore());
+    $(`${playerB.getDivID()} .score h1`).text(playerB.getScore());
+    $(`${playerA.getDivID()} .nail img`).css('opacity', '100%');
+    $(`${playerA.getDivID()} .5050 img`).css('opacity', '100%');
+    $(`${playerB.getDivID()} .nail img`).css('opacity', '100%');
+    $(`${playerB.getDivID()} .5050 img`).css('opacity', '100%');
+    $('#round-display h1').remove();
+    $('#round-display').prepend('<h1>Round <span id="round-number">1</span></h1>');
+    currentRound = 0;
 }
 
 //sets up the listeners for the play button before a round begins.
@@ -94,79 +53,10 @@ const playButton = () => {
     }); 
 }
 
-//Decides if there is another round to play, otherwise, the game is over.
-const nextRound = () => {
-    $(document).off('keypress');
-    $('#play-icon').attr('src', 'img/play.png');
-    if (currentRound < rounds)
-        playButton();
-    else
-        gameOver();
-}
-
+//increments round counter and modifies the DOM to reflect the change
 const roundDisplay = () => {
     currentRound++;
     $('#round-number').text(currentRound);
-}
-
-//After all rounds are completed, figures out who won
-const gameOver = () => {
-    $('#play').on('click', () => {
-        resetColors();
-        if (player1.getScore() === player2.getScore()) {
-            Swal.fire({
-                background: "#D5FB9D",
-                icon: 'question',
-                title: 'Tie Game! NO WINNERS HERE!',
-                confirmButtonColor: "#873ffc",
-                confirmButtonText: "What?!"
-            });
-        }
-        else if (player1.getScore() > player2.getScore()) {
-            Swal.fire({
-                background: "#D5FB9D",
-                title: 'Congrats, Player 1! You Win!',
-                icon: 'success',
-                confirmButtonColor: "#873ffc",
-                confirmButtonText: "Yay!"
-            });
-            player1.addWin();
-        }
-        else {
-            Swal.fire({
-                background: "#D5FB9D",
-                title: 'Congrats, Player 2! You Win!',
-                icon: 'success',
-                confirmButtonColor: "#873ffc",
-                confirmButtonText: "Yay!"
-            });
-            player2.addWin();
-        }
-        $('#play').off('click');
-        $('#round-display h1').text("Game Over");
-        $('#play-icon').attr('src', 'img/note.gif');
-        $('#start-game').css('opacity', '100%').text('Next Game!');
-    }); 
-}
-
-const displayWins = (winner) => {
-    winner.addWin();
-    $(`${winner.getDivID()} .wins span`).text(winner.getWins());
-}
-
-//Resets player values (except wins) and DOM/display elements
-const nextGame = (playerA, playerB) => {
-    playerA.newGame();
-    playerB.newGame();
-    $(`${playerA.getDivID()} .score h1`).text(playerA.getScore());
-    $(`${playerB.getDivID()} .score h1`).text(playerB.getScore());
-    $(`${playerA.getDivID()} .nail img`).css('opacity', '100%');
-    $(`${playerA.getDivID()} .5050 img`).css('opacity', '100%');
-    $(`${playerB.getDivID()} .nail img`).css('opacity', '100%');
-    $(`${playerB.getDivID()} .5050 img`).css('opacity', '100%');
-    $('#round-display h1').remove();
-    $('#round-display').prepend('<h1>Round <span id="round-number">1</span></h1>');
-    currentRound = 0;
 }
 
 //Returns an available song as the selected answer for the round
@@ -247,7 +137,7 @@ const timer = (length, startFunc, endFunc) => {
         complete: () => {endFunc();}
     });
 }
-    
+
 //Appends to the #selection UL 4 possible answers with the correct answer randomly placed
 const displayAnswers = (rightAnswer, songArray) => {
     //select a place for the correct answer to display
@@ -273,11 +163,6 @@ const displayAnswers = (rightAnswer, songArray) => {
             $('#selection').append($li);
         }
     }
-}
-
-const toggleBuzz = () => {
-    player1.canBuzz = !player1.canBuzz;
-    player2.canBuzz = !player2.canBuzz;
 }
 
 //Turns on listeners for player's buzzers, as well as animations 
@@ -308,16 +193,9 @@ const endBuzzer = () => {
     nextRound();
 }
 
-const displayCorrectAnswer = () => {
-    const $answers = $('#selection li');
-    for (let i = 0; i < $answers.length; i++) {
-        if ($($answers[i]).attr('class') === 'correct-answer')
-            $($answers[i]).animate({backgroundColor: "green"});
-    }
-}
-
-const displayWrongAnswer = ($selection) => {
-    $($selection).animate({backgroundColor: "red"}, 150);
+const toggleBuzz = () => {
+    player1.canBuzz = !player1.canBuzz;
+    player2.canBuzz = !player2.canBuzz;
 }
 
 //After a player buzzes, turns on and off listeners at appropriate times based on selection
@@ -398,16 +276,6 @@ const playerChoice = (player, opponent) => {
     })
 }
 
-const useNail = (player) => {
-    player.hasNail = false;
-    $(`${player.getDivID()} .nail img`).css('opacity', '25%').effect('pulsate');
-}
-
-const use5050 = (player) => {
-    player.has5050 = false;
-    $(`${player.getDivID()} .5050 img`).css('opacity', '25%').effect('pulsate');
-}
-
 //Checks to see if the answer (event) matches the correct-answer
 //Adds points to the player if it does, other wises subtracts points
 //Then resolves round by showing answer, playing the song, and
@@ -428,10 +296,26 @@ const choiceVerify = (player, event) => {
     nextRound();
 }
 
-//Plays the current loaded song till completed
-const playFullSong = () => {
-    $('audio').get(0).currentTime = 0;
-    $('audio').get(0).play();
+const displayCorrectAnswer = () => {
+    const $answers = $('#selection li');
+    for (let i = 0; i < $answers.length; i++) {
+        if ($($answers[i]).attr('class') === 'correct-answer')
+            $($answers[i]).animate({backgroundColor: "green"});
+    }
+}
+
+const displayWrongAnswer = ($selection) => {
+    $($selection).animate({backgroundColor: "red"}, 150);
+}
+
+const useNail = (player) => {
+    player.hasNail = false;
+    $(`${player.getDivID()} .nail img`).css('opacity', '25%').effect('pulsate');
+}
+
+const use5050 = (player) => {
+    player.has5050 = false;
+    $(`${player.getDivID()} .5050 img`).css('opacity', '25%').effect('pulsate');
 }
 
 //Called if a player buzzes but does not answer
@@ -451,10 +335,60 @@ const nailTimeLimit = (nailee, nailer) => {
     nextRound();
 }
 
-//Resets the players boxes back to invisable, signifying neither are active
-const resetColors = () => {
-    $('#player1').css('background-color', "rgba(0, 0, 0, 0");
-    $('#player2').css('background-color', "rgba(0, 0, 0, 0");
+//Plays the current loaded song till completed
+const playFullSong = () => {
+    $('audio').get(0).currentTime = 0;
+    $('audio').get(0).play();
+}
+
+//Decides if there is another round to play, otherwise, the game is over.
+const nextRound = () => {
+    $(document).off('keypress');
+    $('#play-icon').attr('src', 'img/play.png');
+    if (currentRound < rounds)
+        playButton();
+    else
+        gameOver();
+}
+
+//After all rounds are completed, figures out who won
+const gameOver = () => {
+    $('#play').on('click', () => {
+        resetColors();
+        if (player1.getScore() === player2.getScore()) {
+            Swal.fire({
+                background: "#D5FB9D",
+                icon: 'question',
+                title: 'Tie Game! NO WINNERS HERE!',
+                confirmButtonColor: "#873ffc",
+                confirmButtonText: "What?!"
+            });
+        }
+        else if (player1.getScore() > player2.getScore()) {
+            Swal.fire({
+                background: "#D5FB9D",
+                title: 'Congrats, Player 1! You Win!',
+                icon: 'success',
+                confirmButtonColor: "#873ffc",
+                confirmButtonText: "Yay!"
+            });
+            player1.addWin();
+        }
+        else {
+            Swal.fire({
+                background: "#D5FB9D",
+                title: 'Congrats, Player 2! You Win!',
+                icon: 'success',
+                confirmButtonColor: "#873ffc",
+                confirmButtonText: "Yay!"
+            });
+            player2.addWin();
+        }
+        $('#play').off('click');
+        $('#round-display h1').text("Game Over");
+        $('#play-icon').attr('src', 'img/note.gif');
+        $('#start-game').css('opacity', '100%').text('Next Game!');
+    }); 
 }
 
 //Initial listeners upon startup of game, opening and closing of the rules
